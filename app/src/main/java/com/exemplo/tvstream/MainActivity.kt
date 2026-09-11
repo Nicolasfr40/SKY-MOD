@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
 
-        webView.loadUrl("file:///android_asset/index.html")
+        webView.loadUrl("https://nicolasfr40.github.io/SKY-MOD/")
 
         // Permite navegar "para trás" dentro do WebView (histórico) antes de fechar o app.
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
