@@ -64,3 +64,4 @@ class MainActivity : AppCompatActivity() {
         webView.destroy()
         super.onDestroy()
     }
+}
