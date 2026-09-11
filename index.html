@@ -415,7 +415,7 @@
             box-shadow:0 0 8px var(--red-glow);
         }
 
-        /* ===== FULLSCREEN TOTAL ===== */
+        /* ===== FULLSCREEN TOTAL - SEM CORTAR, PREENCHE ===== */
         .device.fullscreen-ativo {
             position: fixed !important;
             top: 0 !important;
@@ -448,6 +448,8 @@
             background: #000 !important;
             height: 100vh !important;
             height: 100dvh !important;
+            width: 100vw !important;
+            max-width: 100vw !important;
         }
 
         .device.fullscreen-ativo .screen {
@@ -456,11 +458,47 @@
             height: 100vh !important;
             height: 100dvh !important;
             width: 100vw !important;
+            max-width: 100vw !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
         }
 
+        .device.fullscreen-ativo #playerMount {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #000 !important;
+        }
+
+        /* FULLSCREEN EM RETRATO (em pé) - mantém proporção, sem cortar */
         .device.fullscreen-ativo #playerMount iframe,
         .device.fullscreen-ativo #playerMount video {
+            position: relative !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100vw !important;
+            max-height: 100vh !important;
+            max-height: 100dvh !important;
             object-fit: contain !important;
+            display: block !important;
+            background: #000 !important;
+        }
+
+        /* FULLSCREEN EM PAISAGEM (deitado) - preenche 100% SEM CORTAR */
+        @media (orientation: landscape) {
+            .device.fullscreen-ativo #playerMount iframe,
+            .device.fullscreen-ativo #playerMount video {
+                width: 100vw !important;
+                height: 100vh !important;
+                height: 100dvh !important;
+                object-fit: contain !important;
+                background: #000 !important;
+            }
         }
 
         body.fullscreen-ativo { overflow: hidden !important; position: fixed !important; width: 100% !important; height: 100% !important; top: 0 !important; left: 0 !important; }
@@ -546,7 +584,7 @@
             .logo-splash .sub { font-size: 8px; letter-spacing: 3px; }
         }
 
-        /* ===== MODO PAISAGEM - DEVICE ESTICA PRA TELA INTEIRA ===== */
+        /* ===== MODO PAISAGEM ===== */
         @media (orientation: landscape) and (max-height: 700px) {
             body {
                 min-height: 100vh;
