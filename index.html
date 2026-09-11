@@ -13,7 +13,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        /* ===== SCROLL LIVRE (em pé e deitado) ===== */
         html {
             height: 100%;
             overflow-x: hidden;
@@ -228,60 +227,6 @@
         .corner.bl{bottom:6px; left:6px; transform:scaleY(-1);}
         .corner.br{bottom:6px; right:6px; transform:scale(-1,-1);}
 
-        .device-topbar{
-            position:relative;
-            z-index:4;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:10px 6px 16px;
-        }
-
-        .device-brand{
-            display:flex;
-            align-items:center;
-            gap:9px;
-        }
-
-        .device-brand .spark{
-            width:20px;height:20px;
-            color:var(--red-1);
-            filter:drop-shadow(0 0 6px var(--red-glow));
-        }
-
-        .device-brand .wordmark{
-            font-family:var(--font-display), 'Montserrat', sans-serif;
-            font-size:22px;
-            font-weight:800;
-            letter-spacing:2px;
-            display:flex;
-            gap:8px;
-        }
-        .device-brand .wordmark .sky{color:#f4f4f4; text-shadow:0 0 10px rgba(255,255,255,.25);}
-        .device-brand .wordmark .mod{color:var(--red-1); text-shadow:0 0 12px var(--red-glow);}
-
-        .live-badge{
-            display:flex;
-            align-items:center;
-            gap:7px;
-            padding:6px 12px;
-            border-radius:20px;
-            background:linear-gradient(180deg, #0e1a10, #081209);
-            border:1px solid rgba(0,255,106,.35);
-            box-shadow:0 0 14px rgba(0,255,106,.18) inset, 0 0 10px rgba(0,255,106,.15);
-            font-size:11.5px;
-            font-weight:700;
-            letter-spacing:.4px;
-            color:#d8ffe6;
-        }
-        .live-dot{
-            width:7px;height:7px;border-radius:50%;
-            background:var(--green-1);
-            box-shadow:0 0 8px 2px var(--green-glow);
-            animation:blink 1.4s ease-in-out infinite;
-        }
-        @keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
-
         .screen-shell{
             position:relative;
             z-index:4;
@@ -462,39 +407,21 @@
         .ctrl-btn:hover{transform:translateY(-2px);}
         .ctrl-btn:active{transform:translateY(0) scale(.94);}
 
-        /* ===== BOTTOM BAR DO DEVICE ===== */
-        .device-bottombar{
-            position:relative;
-            z-index:4;
+        /* ===== STRIPES DECORATIVAS ===== */
+        .stripes{
             display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:18px 10px 8px;
+            gap:5px;
+            justify-content: center;
+            padding: 12px 0 4px;
+            position: relative;
+            z-index: 4;
         }
-
-        .stripes{display:flex; gap:5px;}
         .stripes span{
             width:8px;height:26px;
             background:linear-gradient(180deg, var(--red-1), var(--red-2));
             clip-path:polygon(40% 0, 100% 0, 60% 100%, 0 100%);
             box-shadow:0 0 8px var(--red-glow);
         }
-
-        .menu-btn-device{
-            width:56px;height:56px;
-            border-radius:50%;
-            border:1px solid rgba(0,255,106,.45);
-            background:radial-gradient(circle at 35% 30%, #0e1f12, #061109 70%);
-            box-shadow:0 0 16px rgba(0,255,106,.3), inset 0 0 10px rgba(0,255,106,.15);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            cursor:pointer;
-            transition:transform .12s ease;
-        }
-        .menu-btn-device:hover{transform:scale(1.05);}
-        .menu-btn-device:active{transform:scale(.94);}
-        .menu-btn-device svg{width:22px;height:22px; stroke:var(--green-1); filter:drop-shadow(0 0 5px var(--green-glow));}
 
         /* ===== FULLSCREEN TOTAL ===== */
         .device.fullscreen-ativo {
@@ -516,10 +443,9 @@
         .device.fullscreen-ativo::before,
         .device.fullscreen-ativo::after { display: none !important; }
 
-        .device.fullscreen-ativo .device-topbar,
         .device.fullscreen-ativo .seek-wrap,
         .device.fullscreen-ativo .controls,
-        .device.fullscreen-ativo .device-bottombar,
+        .device.fullscreen-ativo .stripes,
         .device.fullscreen-ativo .corner,
         .device.fullscreen-ativo .rec-tag { display: none !important; }
 
@@ -607,9 +533,6 @@
             .logo-splash .sub { font-size: 10px; letter-spacing: 5px; }
             .logo-splash .underline { width: 60%; }
             .device { padding: 12px; border-radius: 28px; }
-            .device-topbar { padding: 8px 4px 12px; }
-            .device-brand .wordmark { font-size: 18px; }
-            .live-badge { font-size: 10px; padding: 5px 10px; }
             .fullscreen-btn { width: 40px; height: 40px; top: 10px; right: 10px; }
             .fullscreen-btn svg { width: 17px; height: 17px; }
             .rec-tag { font-size: 9px; padding: 4px 7px; left: 10px; top: 10px; }
@@ -618,8 +541,6 @@
             .ctrl-btn.skip svg { width: 20px; height: 20px; }
             .ctrl-btn.play { width: 70px; height: 70px; }
             .ctrl-btn.play svg { width: 28px; height: 28px; }
-            .menu-btn-device { width: 48px; height: 48px; }
-            .menu-btn-device svg { width: 20px; height: 20px; }
             .stripes span { width: 6px; height: 22px; }
             .seek-wrap { padding: 14px 8px 4px; }
             .time-row { font-size: 11px; }
@@ -772,19 +693,6 @@
             <div class="corner bl"><svg viewBox="0 0 46 46"><path d="M2 20 L2 2 L20 2" fill="none" stroke="#ff2a2a" stroke-width="2"/></svg></div>
             <div class="corner br"><svg viewBox="0 0 46 46"><path d="M2 20 L2 2 L20 2" fill="none" stroke="#ff2a2a" stroke-width="2"/></svg></div>
 
-            <header class="device-topbar">
-                <div class="device-brand">
-                    <svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M12 2 L14.2 9.8 22 12 14.2 14.2 12 22 9.8 14.2 2 12 9.8 9.8Z"/>
-                    </svg>
-                    <span class="wordmark"><span class="sky">SKY</span><span class="mod">MOD</span></span>
-                </div>
-                <div class="live-badge">
-                    <span class="live-dot" aria-hidden="true"></span>
-                    <span>LIVE · 4K UHD</span>
-                </div>
-            </header>
-
             <section class="screen-shell">
                 <div class="screen" id="screen">
                     <span class="rec-tag">● REC</span>
@@ -828,16 +736,7 @@
                 </button>
             </div>
 
-            <footer class="device-bottombar">
-                <div class="stripes" aria-hidden="true"><span></span><span></span><span></span></div>
-                <button class="menu-btn-device" id="menuBtnDevice" aria-label="Menu">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <line x1="4" y1="7" x2="20" y2="7"/>
-                        <line x1="4" y1="12" x2="20" y2="12"/>
-                        <line x1="4" y1="17" x2="20" y2="17"/>
-                    </svg>
-                </button>
-            </footer>
+            <div class="stripes" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
     </div>
 
@@ -1039,7 +938,9 @@
                 return video;
             }
 
+            // ============================================================
             // CONTROLES
+            // ============================================================
             const playBtn = document.getElementById('playBtn');
             const iconPlay = document.getElementById('iconPlay');
             const iconPause = document.getElementById('iconPause');
@@ -1053,7 +954,6 @@
             const fullscreenBtn = document.getElementById('fullscreenBtn');
             const devicePlayer = document.getElementById('devicePlayer');
             const clickCatcher = document.getElementById('clickCatcher');
-            const menuBtnDevice = document.getElementById('menuBtnDevice');
 
             let playing = true;
 
@@ -1079,39 +979,108 @@
                 durationTimeEl.textContent = formatTime(duration);
             }
 
+            // ============================================================
+            // PAUSE / PLAY UNIVERSAL
+            // ============================================================
+            function pausarVideo() {
+                if (!playerAtual) return false;
+
+                if (playerAtual.tagName === 'VIDEO') {
+                    try {
+                        playerAtual.pause();
+                        setPlayingIcon(false);
+                        return true;
+                    } catch(e) { return false; }
+                }
+
+                if (playerAtual.tagName === 'IFRAME') {
+                    const src = (playerAtual.src || '').toLowerCase();
+                    try {
+                        // YouTube
+                        if (src.includes('youtube') || src.includes('youtu.be')) {
+                            playerAtual.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                            setPlayingIcon(false);
+                            return true;
+                        }
+                        // Dailymotion — usa o método correto
+                        if (src.includes('dailymotion')) {
+                            playerAtual.contentWindow.postMessage('{"event":"command","func":"pause","args":""}', '*');
+                            playerAtual.contentWindow.postMessage('{"method":"pause"}', '*');
+                            setPlayingIcon(false);
+                            return true;
+                        }
+                        // Vimeo
+                        if (src.includes('vimeo')) {
+                            playerAtual.contentWindow.postMessage('{"method":"pause"}', '*');
+                            setPlayingIcon(false);
+                            return true;
+                        }
+                        // Genérico
+                        playerAtual.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                        playerAtual.contentWindow.postMessage('{"event":"command","func":"pause","args":""}', '*');
+                        playerAtual.contentWindow.postMessage('{"method":"pause"}', '*');
+                        setPlayingIcon(false);
+                        return true;
+                    } catch(e) { return false; }
+                }
+
+                return false;
+            }
+
+            function despausarVideo() {
+                if (!playerAtual) return false;
+
+                if (playerAtual.tagName === 'VIDEO') {
+                    try {
+                        playerAtual.play().then(() => setPlayingIcon(true)).catch(()=>{});
+                        return true;
+                    } catch(e) { return false; }
+                }
+
+                if (playerAtual.tagName === 'IFRAME') {
+                    const src = (playerAtual.src || '').toLowerCase();
+                    try {
+                        if (src.includes('youtube') || src.includes('youtu.be')) {
+                            playerAtual.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                            setPlayingIcon(true);
+                            return true;
+                        }
+                        if (src.includes('dailymotion')) {
+                            playerAtual.contentWindow.postMessage('{"event":"command","func":"play","args":""}', '*');
+                            playerAtual.contentWindow.postMessage('{"method":"play"}', '*');
+                            setPlayingIcon(true);
+                            return true;
+                        }
+                        if (src.includes('vimeo')) {
+                            playerAtual.contentWindow.postMessage('{"method":"play"}', '*');
+                            setPlayingIcon(true);
+                            return true;
+                        }
+                        playerAtual.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                        playerAtual.contentWindow.postMessage('{"event":"command","func":"play","args":""}', '*');
+                        playerAtual.contentWindow.postMessage('{"method":"play"}', '*');
+                        setPlayingIcon(true);
+                        return true;
+                    } catch(e) { return false; }
+                }
+
+                return false;
+            }
+
             playBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (!playerAtual) return;
 
-                if (playerAtual.tagName === 'VIDEO') {
-                    if (playerAtual.paused) {
-                        playerAtual.play().then(() => setPlayingIcon(true)).catch(()=>{});
-                    } else {
-                        playerAtual.pause();
-                        setPlayingIcon(false);
-                    }
-                } else if (playerAtual.tagName === 'IFRAME') {
-                    try {
-                        const src = playerAtual.src;
-                        if (playing) {
-                            if (src.includes('youtube')) {
-                                playerAtual.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                            } else if (src.includes('dailymotion')) {
-                                playerAtual.contentWindow.postMessage('{"event":"command","func":"pause","args":""}', '*');
-                            }
-                            setPlayingIcon(false);
-                        } else {
-                            if (src.includes('youtube')) {
-                                playerAtual.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                            } else if (src.includes('dailymotion')) {
-                                playerAtual.contentWindow.postMessage('{"event":"command","func":"play","args":""}', '*');
-                            }
-                            setPlayingIcon(true);
-                        }
-                    } catch(e) {}
+                if (playing) {
+                    pausarVideo();
+                } else {
+                    despausarVideo();
                 }
             });
 
+            // ============================================================
+            // CANAL ANTERIOR / PRÓXIMO
+            // ============================================================
             function canalAnterior() {
                 const idx = ordemCanais.indexOf(abaAtual);
                 if (idx === -1) return;
@@ -1161,12 +1130,9 @@
             window.addEventListener('touchmove', e => { if (dragging) seekFromClientX(e.touches[0].clientX); }, {passive:true});
             window.addEventListener('touchend', () => { dragging = false; });
 
-            menuBtnDevice.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (window.abrirGavetaGlobal) window.abrirGavetaGlobal();
-            });
-
-            // FULLSCREEN
+            // ============================================================
+            // FULLSCREEN + TOGGLE
+            // ============================================================
             let fullscreenAtivo = false;
             let timeoutEsconderBtn = null;
 
@@ -1235,16 +1201,25 @@
                 }
             });
 
+            // ============================================================
+            // SISTEMA DE ABAS
+            // ============================================================
             const botoes = document.querySelectorAll('#tabButtons button');
 
             function trocarAba(abaId) {
                 if (!CANAIS[abaId]) return;
+
+                // Pausa o player atual antes de trocar
+                pausarVideo();
 
                 botoes.forEach(btn => {
                     btn.classList.toggle('ativa', btn.dataset.tab === abaId);
                 });
 
                 criarPlayer(abaId);
+
+                // Reseta o botão play
+                setPlayingIcon(true);
 
                 fullscreenBtn.classList.remove('escondido');
                 agendarEsconder();
