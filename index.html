@@ -33,7 +33,6 @@
             touch-action: manipulation;
         }
 
-        /* ===== MODO PAISAGEM (celular virado) ===== */
         @media (orientation: landscape) and (max-height: 600px) {
             html, body {
                 height: auto !important;
@@ -41,7 +40,6 @@
                 overflow-y: auto !important;
                 overflow-x: hidden !important;
             }
-
             .top-bar { padding: 8px 16px 4px 16px !important; }
             .logo-sky .nome { font-size: 20px !important; }
             .logo-sky .sub { font-size: 8px !important; letter-spacing: 2px !important; }
@@ -92,7 +90,6 @@
             animation: splashOut 1.2s ease forwards;
             animation-delay: 3.5s;
         }
-
         .splash-screen .bg-effects { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         .light-1 { position: absolute; top: 50%; left: 50%; width: 80%; height: 80%; transform: translate(-50%, -50%); background: radial-gradient(ellipse at center, rgba(255,26,26,0.15) 0%, transparent 70%); animation: lightPulse1 3s ease-in-out infinite; }
         .light-2 { position: absolute; top: 20%; right: 10%; width: 40%; height: 40%; background: radial-gradient(ellipse at center, rgba(255,26,26,0.1) 0%, transparent 70%); animation: lightPulse2 4s ease-in-out infinite; }
@@ -160,7 +157,6 @@
             margin-bottom: 4px;
         }
 
-        /* ===== ABAS (ESCONDIDAS) ===== */
         .tabs { position: absolute !important; left: -9999px !important; top: -9999px !important; opacity: 0 !important; pointer-events: none !important; height: 0 !important; overflow: hidden !important; }
 
         /* ===== PLAYER ===== */
@@ -260,6 +256,20 @@
             pointer-events: none;
         }
 
+        /* ===== OVERLAY DE CLIQUES (INVISÍVEL) ===== */
+        .click-catcher {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 15;
+            background: transparent;
+            cursor: pointer;
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         /* ===== RODAPÉ ===== */
         .footer-bar {
             width: 100%;
@@ -288,9 +298,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-player .texto { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* ============================================================
-           BOTÃO FULLSCREEN (com animação de esconder)
-           ============================================================ */
+        /* ===== BOTÃO FULLSCREEN ===== */
         .btn-fullscreen {
             position: absolute;
             top: 16px;
@@ -315,7 +323,6 @@
             pointer-events: auto;
         }
 
-        /* Botão escondido */
         .btn-fullscreen.escondido {
             opacity: 0 !important;
             transform: scale(0.5) !important;
@@ -329,19 +336,11 @@
             transform: scale(1.1);
         }
 
-        .btn-fullscreen:active {
-            transform: scale(0.9);
-        }
+        .btn-fullscreen:active { transform: scale(0.9); }
 
-        .btn-fullscreen svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
+        .btn-fullscreen svg { width: 24px; height: 24px; fill: currentColor; }
 
-        /* ============================================================
-           MODO FULLSCREEN TOTAL (preenche tudo, esconde sistema)
-           ============================================================ */
+        /* ===== FULLSCREEN TOTAL ===== */
         .player-wrapper.fullscreen-ativo {
             position: fixed !important;
             top: 0 !important;
@@ -360,10 +359,7 @@
             box-shadow: none !important;
         }
 
-        /* Remove a borda dourada no fullscreen */
-        .player-wrapper.fullscreen-ativo::before {
-            display: none !important;
-        }
+        .player-wrapper.fullscreen-ativo::before { display: none !important; }
 
         .player-wrapper.fullscreen-ativo iframe,
         .player-wrapper.fullscreen-ativo video {
@@ -375,24 +371,14 @@
             background: #000 !important;
         }
 
-        /* Esconde TUDO no fullscreen */
-        body.fullscreen-ativo {
-            overflow: hidden !important;
-            position: fixed !important;
-            width: 100% !important;
-            height: 100% !important;
-            top: 0 !important;
-            left: 0 !important;
-        }
+        body.fullscreen-ativo { overflow: hidden !important; position: fixed !important; width: 100% !important; height: 100% !important; top: 0 !important; left: 0 !important; }
 
         body.fullscreen-ativo .top-bar,
         body.fullscreen-ativo .gold-line,
         body.fullscreen-ativo .footer-bar,
         body.fullscreen-ativo .tabs,
         body.fullscreen-ativo .bg-pattern,
-        body.fullscreen-ativo::before {
-            display: none !important;
-        }
+        body.fullscreen-ativo::before { display: none !important; }
 
         body.fullscreen-ativo .player-container {
             padding: 0 !important;
@@ -407,13 +393,8 @@
             z-index: 999999 !important;
         }
 
-        body.fullscreen-ativo .light-orbs {
-            display: none !important;
-        }
-
-        body.fullscreen-ativo #btnCanais {
-            display: none !important;
-        }
+        body.fullscreen-ativo .light-orbs { display: none !important; }
+        body.fullscreen-ativo #btnCanais { display: none !important; }
 
         body.fullscreen-ativo .player-wrapper.fullscreen-ativo .btn-fullscreen {
             top: 20px;
@@ -424,16 +405,11 @@
             box-shadow: 0 0 30px rgba(255, 26, 26, 0.5);
         }
 
-        body.fullscreen-ativo .player-wrapper.fullscreen-ativo .btn-fullscreen:hover {
-            background: rgba(255, 26, 26, 0.3);
-        }
-
         /* ===== RESPONSIVO ===== */
         @media (max-width: 600px) {
             .logo-sky .nome { font-size: 18px; }
             .logo-sky .sub { font-size: 7px; padding-left: 6px; letter-spacing: 2px; }
-            .player-wrapper iframe,
-            .player-wrapper video { min-height: 200px; }
+            .player-wrapper iframe, .player-wrapper video { min-height: 200px; }
             .player-container { padding: 4px 8px 8px 8px; }
             .top-bar { padding: 10px 16px 4px 16px; padding-top: calc(10px + env(safe-area-inset-top)); }
             .top-bar .status { font-size: 8px; letter-spacing: 1px; }
@@ -551,7 +527,6 @@
 </head>
 <body>
 
-    <!-- ===== SPLASH ===== -->
     <div class="splash-screen" id="splashScreen">
         <div class="bg-effects">
             <div class="light-1"></div>
@@ -695,6 +670,7 @@
                         container.appendChild(overlay);
                         container.appendChild(playerElement);
                         adicionarBotaoFullscreen(container);
+                        adicionarClickCatcher(container);
                     }
                 } catch (erro) {
                     console.error('Erro ao criar player:', erro);
@@ -865,13 +841,13 @@
             window.trocarAbaGlobal = trocarAba;
 
             // ============================================================
-            // FULLSCREEN TOTAL + ESCONDE BOTÃO AO CLICAR
+            // FULLSCREEN + TOGGLE DO BOTÃO
             // ============================================================
             const ICONE_EXPANDIR = `<svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>`;
             const ICONE_SAIR = `<svg viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>`;
 
             let fullscreenAtivo = null;
-            let botaoEscondidoTimeout = null;
+            const timeoutsEsconder = {};
 
             function adicionarBotaoFullscreen(wrapper) {
                 if (wrapper.querySelector('.btn-fullscreen')) return;
@@ -884,34 +860,74 @@
 
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
+                    e.preventDefault();
+                    toggleFullscreen(wrapper);
+                });
+
+                // Também suporta toque (mobile)
+                btn.addEventListener('touchend', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
                     toggleFullscreen(wrapper);
                 });
 
                 wrapper.appendChild(btn);
+            }
 
-                // ===== CLICK NA TELA ESCONDE/MOSTRA O BOTÃO =====
-                wrapper.addEventListener('click', function(e) {
-                    // Se clicou no botão, ignora
-                    if (e.target.closest('.btn-fullscreen')) return;
+            function adicionarClickCatcher(wrapper) {
+                if (wrapper.querySelector('.click-catcher')) return;
 
-                    // Se clicou dentro do iframe (não conseguimos detectar), ignora
-                    if (e.target.tagName === 'IFRAME') return;
+                const overlay = document.createElement('div');
+                overlay.className = 'click-catcher';
 
-                    // Toggle do botão
-                    if (btn.classList.contains('escondido')) {
-                        btn.classList.remove('escondido');
-                    } else {
-                        btn.classList.add('escondido');
-                    }
-
-                    // Auto-esconde depois de 3s
-                    clearTimeout(botaoEscondidoTimeout);
-                    botaoEscondidoTimeout = setTimeout(function() {
-                        if (fullscreenAtivo === wrapper) {
-                            btn.classList.add('escondido');
-                        }
-                    }, 3000);
+                overlay.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleBotao(wrapper);
                 });
+
+                overlay.addEventListener('touchend', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleBotao(wrapper);
+                });
+
+                // Insere antes do botão fullscreen (pra ficar por baixo)
+                const btnFs = wrapper.querySelector('.btn-fullscreen');
+                if (btnFs) {
+                    wrapper.insertBefore(overlay, btnFs);
+                } else {
+                    wrapper.appendChild(overlay);
+                }
+            }
+
+            function toggleBotao(wrapper) {
+                const btn = wrapper.querySelector('.btn-fullscreen');
+                if (!btn) return;
+
+                // Se tá escondido → mostra
+                if (btn.classList.contains('escondido')) {
+                    btn.classList.remove('escondido');
+                    agendarEsconder(wrapper, btn);
+                } else {
+                    // Se tá visível → esconde
+                    btn.classList.add('escondido');
+                    if (timeoutsEsconder[wrapper.id]) {
+                        clearTimeout(timeoutsEsconder[wrapper.id]);
+                        delete timeoutsEsconder[wrapper.id];
+                    }
+                }
+            }
+
+            function agendarEsconder(wrapper, btn) {
+                if (timeoutsEsconder[wrapper.id]) {
+                    clearTimeout(timeoutsEsconder[wrapper.id]);
+                }
+
+                timeoutsEsconder[wrapper.id] = setTimeout(function() {
+                    btn.classList.add('escondido');
+                    delete timeoutsEsconder[wrapper.id];
+                }, 3000);
             }
 
             function toggleFullscreen(wrapper) {
@@ -926,6 +942,7 @@
                     if (btn) {
                         btn.innerHTML = ICONE_EXPANDIR;
                         btn.classList.remove('escondido');
+                        agendarEsconder(wrapper, btn);
                     }
 
                     if (document.fullscreenElement) {
@@ -940,13 +957,8 @@
                     if (btn) {
                         btn.innerHTML = ICONE_SAIR;
                         btn.classList.remove('escondido');
+                        agendarEsconder(wrapper, btn);
                     }
-
-                    // Auto-esconde depois de 3s
-                    clearTimeout(botaoEscondidoTimeout);
-                    botaoEscondidoTimeout = setTimeout(function() {
-                        if (btn) btn.classList.add('escondido');
-                    }, 3000);
 
                     if (wrapper.requestFullscreen) {
                         wrapper.requestFullscreen().catch(function(err) {
@@ -973,22 +985,24 @@
                     if (btn) {
                         btn.innerHTML = ICONE_EXPANDIR;
                         btn.classList.remove('escondido');
+                        agendarEsconder(wrapper, btn);
                     }
                 }
             });
 
-            function adicionarBotoesTodos() {
+            function adicionarTudoTodos() {
                 document.querySelectorAll('.player-wrapper').forEach(function(w) {
                     adicionarBotaoFullscreen(w);
+                    adicionarClickCatcher(w);
                 });
             }
 
             setTimeout(() => {
                 trocarAba('sbt');
-                adicionarBotoesTodos();
+                adicionarTudoTodos();
             }, 200);
 
-            setTimeout(adicionarBotoesTodos, 1500);
+            setTimeout(adicionarTudoTodos, 1500);
 
         })();
     </script>
