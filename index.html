@@ -152,9 +152,6 @@
         :root{
             --red-1:#ff1a1a;
             --red-2:#8a0000;
-            --red-3:#2b0000;
-            --bg-0:#0a0505;
-            --bg-1:#120707;
             --green-1:#00ff6a;
             --green-2:#00b34a;
             --green-glow:rgba(0,255,106,.55);
@@ -167,8 +164,7 @@
             position:relative;
             width:100%;
             max-width:420px;
-            background:
-                radial-gradient(120% 100% at 50% 0%, #1a0303 0%, var(--bg-0) 55%, #000 100%);
+            background: radial-gradient(120% 100% at 50% 0%, #1a0303 0%, #0a0505 55%, #000 100%);
             border-radius:34px;
             padding:16px;
             box-shadow:
@@ -197,17 +193,13 @@
             animation:edgePulse 4s ease-in-out infinite;
         }
 
-        @keyframes edgePulse{
-            0%,100%{opacity:.55;}
-            50%{opacity:1;}
-        }
+        @keyframes edgePulse{ 0%,100%{opacity:.55;} 50%{opacity:1;} }
 
         .device::after{
             content:"";
             position:absolute;
             inset:0;
-            background-image:
-                repeating-linear-gradient(115deg, rgba(255,0,0,.05) 0 2px, transparent 2px 22px);
+            background-image: repeating-linear-gradient(115deg, rgba(255,0,0,.05) 0 2px, transparent 2px 22px);
             mix-blend-mode:screen;
             pointer-events:none;
             z-index:1;
@@ -820,6 +812,7 @@
         <button data-tab="cultura"><span class="numero">03</span>TV Cultura</button>
         <button data-tab="globo"><span class="numero">04</span>GLOBO</button>
         <button data-tab="canal"><span class="numero">05</span>CANAL</button>
+        <button data-tab="rssports"><span class="numero">06</span>RS Sports 4</button>
     </div>
 
     <div class="player-container">
@@ -912,10 +905,15 @@
                 redetv: { nome: 'Rede TV', url: 'https://geo.dailymotion.com/player/xgrus.html?video=kYe5OYErhldJ75Azib2&autoplay=1' },
                 cultura: { nome: 'TV Cultura', url: 'https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8', tipo: 'hls', headers: { 'Referer': 'https://www.cxtv.com.br/', 'Origin': 'https://www.cxtv.com.br' } },
                 globo: { nome: 'GLOBO', url: 'https://megaflix.mgfiles.lat/ea4564eea5c614876989b6fd90ba4700/file.m3u8', tipo: 'hls' },
-                canal: { nome: 'CANAL', url: 'https://www.youtube.com/embed/rEKifG2XUZg?autoplay=true&enablejsapi=1' }
+                canal: { nome: 'CANAL', url: 'https://www.youtube.com/embed/rEKifG2XUZg?autoplay=true&enablejsapi=1' },
+                rssports: { 
+                    nome: 'RS Sports 4', 
+                    url: 'https://video03.logicahost.com.br/rssports4/rssports4/playlist.m3u8', 
+                    tipo: 'hls' 
+                }
             };
 
-            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal'];
+            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports'];
             let abaAtual = 'sbt';
 
             const playerMount = document.getElementById('playerMount');
