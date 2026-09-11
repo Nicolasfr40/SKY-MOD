@@ -9,6 +9,11 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             background: #0a0a0a;
             height: 100vh;
@@ -19,6 +24,73 @@
             overflow: hidden;
             font-family: 'Montserrat', sans-serif;
             position: relative;
+            -webkit-overflow-scrolling: touch;
+            touch-action: manipulation;
+        }
+
+        /* ===== MODO PAISAGEM (celular virado) ===== */
+        @media (orientation: landscape) and (max-height: 600px) {
+            html, body {
+                height: auto !important;
+                min-height: 100vh;
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+            }
+
+            .top-bar {
+                padding: 8px 16px 4px 16px !important;
+            }
+
+            .logo-sky .nome {
+                font-size: 20px !important;
+            }
+
+            .logo-sky .sub {
+                font-size: 8px !important;
+                letter-spacing: 2px !important;
+            }
+
+            .top-bar .status {
+                font-size: 9px !important;
+            }
+
+            .gold-line {
+                margin-bottom: 2px !important;
+            }
+
+            .player-container {
+                flex: 0 0 auto !important;
+                padding: 6px 12px !important;
+                min-height: auto !important;
+            }
+
+            .player-wrapper {
+                max-height: 80vh !important;
+                height: 80vh !important;
+            }
+
+            .player-wrapper iframe,
+            .player-wrapper video {
+                min-height: 200px !important;
+                height: 80vh !important;
+            }
+
+            .footer-bar {
+                padding: 4px 16px 8px 16px !important;
+            }
+
+            .footer-bar .info,
+            .footer-bar .brand {
+                font-size: 9px !important;
+            }
+
+            #btnCanais {
+                width: 48px !important;
+                height: 48px !important;
+                font-size: 20px !important;
+                bottom: 12px !important;
+                right: 12px !important;
+            }
         }
 
         body::before {
@@ -262,7 +334,6 @@
             overflow: hidden;
         }
 
-        /* ===== FUNDO ANIMADO LED ===== */
         .player-container::before {
             content: '';
             position: absolute;
@@ -305,7 +376,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* ===== ORBES DE LUZ ===== */
         .light-orbs {
             position: absolute;
             top: 0; left: 0;
@@ -345,7 +415,6 @@
             75% { transform: translate(30px, 30px) scale(1.05); }
         }
 
-        /* ===== PLAYER ===== */
         .player-wrapper {
             width: 100%;
             height: 100%;
@@ -468,9 +537,7 @@
             text-transform: uppercase;
         }
 
-        /* ============================================================
-           BOTÃO FULLSCREEN
-           ============================================================ */
+        /* ===== BOTÃO FULLSCREEN ===== */
         .btn-fullscreen {
             position: absolute;
             top: 16px;
@@ -597,9 +664,7 @@
             .logo-splash .sub { font-size: 8px; letter-spacing: 3px; }
         }
 
-        /* ============================================================
-           GAVETA DE CANAIS (BOTÃO FLUTUANTE)
-           ============================================================ */
+        /* ===== GAVETA DE CANAIS ===== */
         #btnCanais {
             position: fixed;
             bottom: 24px;
@@ -616,19 +681,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow:
-                0 0 20px rgba(0, 255, 136, 0.4),
-                0 0 40px rgba(0, 255, 136, 0.2),
-                inset 0 0 20px rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 40px rgba(0, 255, 136, 0.2);
             transition: all 0.3s ease;
             animation: pulseLive 2s ease-in-out infinite;
         }
 
         #btnCanais:hover {
             transform: scale(1.1);
-            box-shadow:
-                0 0 30px rgba(0, 255, 136, 0.6),
-                0 0 60px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6), 0 0 60px rgba(0, 255, 136, 0.3);
         }
 
         #btnCanais.ativo {
@@ -646,16 +706,10 @@
 
         @keyframes pulseLive {
             0%, 100% {
-                box-shadow:
-                    0 0 20px rgba(0, 255, 136, 0.4),
-                    0 0 40px rgba(0, 255, 136, 0.2),
-                    inset 0 0 20px rgba(0, 255, 136, 0.05);
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 40px rgba(0, 255, 136, 0.2);
             }
             50% {
-                box-shadow:
-                    0 0 30px rgba(0, 255, 136, 0.7),
-                    0 0 60px rgba(0, 255, 136, 0.4),
-                    inset 0 0 30px rgba(0, 255, 136, 0.1);
+                box-shadow: 0 0 30px rgba(0, 255, 136, 0.7), 0 0 60px rgba(0, 255, 136, 0.4);
             }
         }
 
@@ -768,9 +822,6 @@
         .gaveta-lista::-webkit-scrollbar-thumb {
             background: rgba(0, 255, 136, 0.3);
             border-radius: 4px;
-        }
-        .gaveta-lista::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 255, 136, 0.6);
         }
 
         .gaveta-item {
@@ -950,7 +1001,6 @@
 
     <div class="gold-line"></div>
 
-    <!-- ===== ABAS (ESCONDIDAS - SÓ PRA GUARDAR OS CANAIS) ===== -->
     <div class="tabs" id="tabButtons">
         <button class="ativa" data-tab="sbt"><span class="numero">01</span>SBT</button>
         <button data-tab="redetv"><span class="numero">02</span>Rede TV</button>
@@ -974,15 +1024,12 @@
         <div class="brand">✦ luxe</div>
     </div>
 
-    <!-- ===== BOTÃO FLUTUANTE ===== -->
     <button id="btnCanais" title="Ver todos os canais" aria-label="Abrir lista de canais">
         <span class="icone">☰</span>
     </button>
 
-    <!-- ===== OVERLAY ESCURO ===== -->
     <div id="gavetaOverlay"></div>
 
-    <!-- ===== GAVETA DE CANAIS ===== -->
     <div id="gavetaCanais" role="dialog" aria-label="Lista de canais">
         <div class="gaveta-header">
             <div>
@@ -997,9 +1044,6 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    HLS.JS
-    ============================================================ -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
 
     <script>
@@ -1090,7 +1134,6 @@
                         container.innerHTML = '';
                         container.appendChild(overlay);
                         container.appendChild(playerElement);
-                        // Adiciona botão fullscreen
                         adicionarBotaoFullscreen(container);
                     }
                 } catch (erro) {
@@ -1216,9 +1259,6 @@
                 container.appendChild(erro);
             }
 
-            // ============================================================
-            // SISTEMA DE ABAS
-            // ============================================================
             const botoes = document.querySelectorAll('#tabButtons button');
             const containers = {
                 sbt: document.getElementById('player-sbt'),
@@ -1278,9 +1318,7 @@
 
             window.trocarAbaGlobal = trocarAba;
 
-            // ============================================================
-            // FULLSCREEN
-            // ============================================================
+            // ===== FULLSCREEN =====
             const ICONE_EXPANDIR = `<svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>`;
             const ICONE_SAIR = `<svg viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>`;
 
@@ -1351,7 +1389,6 @@
                 }
             });
 
-            // Adiciona botão em TODOS os players
             function adicionarBotoesTodos() {
                 document.querySelectorAll('.player-wrapper').forEach(function(w) {
                     adicionarBotaoFullscreen(w);
