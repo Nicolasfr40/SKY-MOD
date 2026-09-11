@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKY MOD - IPTV Luxury</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Montserrat:wght@300;400;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0a;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(180,0,0,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(180,0,0,0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 100%, rgba(100,0,0,0.12) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: repeating-linear-gradient(45deg, rgba(255,215,0,0.01) 0px, rgba(255,215,0,0.01) 2px, transparent 2px, transparent 8px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== SPLASH ===== */
+        .splash-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            overflow: hidden;
+            animation: splashOut 1.2s ease forwards;
+            animation-delay: 3.5s;
+        }
+
+        .splash-screen .bg-effects {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        .light-1 {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 80%; height: 80%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(ellipse at center, rgba(255,26,26,0.15) 0%, transparent 70%);
+            animation: lightPulse1 3s ease-in-out infinite;
+        }
+        .light-2 {
+            position: absolute;
+            top: 20%; right: 10%;
+            width: 40%; height: 40%;
+            background: radial-gradient(ellipse at center, rgba(255,26,26,0.1) 0%, transparent 70%);
+            animation: lightPulse2 4s ease-in-out infinite;
+        }
+        .light-3 {
+            position: absolute;
+            bottom: 10%; left: 5%;
+            width: 50%; height: 30%;
+            background: radial-gradient(ellipse at center, rgba(255,26,26,0.08) 0%, transparent 70%);
+            animation: lightPulse3 5s ease-in-out infinite;
+        }
+
+        .line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(255,26,26,0.2), transparent);
+            height: 1px;
+            width: 60%;
+            left: 20%;
+        }
+        .line-1 { top: 15%; animation: lineMove1 6s linear infinite; }
+        .line-2 { top: 85%; animation: lineMove2 8s linear infinite; }
+        .line-3 { top: 50%; width: 40%; left: 30%; opacity: 0.5; animation: lineMove3 7s linear infinite; }
+
+        .particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: rgba(255,26,26,0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255,26,26,0.3);
+            animation: particleFloat 8s ease-in-out infinite;
+        }
+        .particle:nth-child(1) { top: 10%; left: 20%; }
+        .particle:nth-child(2) { top: 30%; left: 80%; animation-delay: 1s; }
+        .particle:nth-child(3) { top: 60%; left: 10%; animation-delay: 2s; }
+        .particle:nth-child(4) { top: 80%; left: 70%; animation-delay: 0.5s; }
+        .particle:nth-child(5) { top: 20%; left: 50%; animation-delay: 1.5s; }
+
+        .logo-splash {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            opacity: 0;
+            animation: logoReveal 1.2s ease forwards;
+            animation-delay: 0.5s;
+        }
+        .logo-splash .nome {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 700;
+            font-style: italic;
+            color: #fff;
+            letter-spacing: 6px;
+            text-shadow: 0 0 40px rgba(255,26,26,0.15), 0 0 80px rgba(255,26,26,0.08);
+            animation: textGlow 3s ease-in-out infinite;
+        }
+        .logo-splash .nome .mod-destaque {
+            color: #ff1a1a;
+            text-shadow: 0 0 60px rgba(255,26,26,0.4);
+        }
+        .logo-splash .underline {
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff1a1a, transparent);
+            margin: 12px auto 0 auto;
+            animation: underlineGrow 1.5s ease forwards;
+            animation-delay: 1.2s;
+        }
+        .logo-splash .sub {
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            margin-top: 16px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+            animation-delay: 1.8s;
+        }
+
+        @keyframes logoReveal {
+            0% { opacity: 0; transform: scale(0.8) translateY(30px); filter: blur(8px); }
+            60% { transform: scale(1.05) translateY(-5px); filter: blur(0); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 40px rgba(255,26,26,0.15); }
+            50% { text-shadow: 0 0 60px rgba(255,26,26,0.25); }
+        }
+        @keyframes underlineGrow { 0% { width: 0; opacity: 0; } 100% { width: 40%; opacity: 1; } }
+        @keyframes fadeUp { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes lightPulse1 { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.2); opacity: 1; } }
+        @keyframes lightPulse2 { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.3); opacity: 0.8; } }
+        @keyframes lightPulse3 { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.4); opacity: 0.7; } }
+        @keyframes lineMove1 { 0% { transform: translateX(-100%); opacity: 0; } 30% { opacity: 1; } 70% { opacity: 1; } 100% { transform: translateX(100%); opacity: 0; } }
+        @keyframes lineMove2 { 0% { transform: translateX(100%); opacity: 0; } 30% { opacity: 1; } 70% { opacity: 1; } 100% { transform: translateX(-100%); opacity: 0; } }
+        @keyframes lineMove3 { 0% { transform: translateX(-50%) scaleX(0.5); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateX(50%) scaleX(1.5); opacity: 0; } }
+        @keyframes particleFloat { 0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; } 50% { transform: translateY(-60px) scale(1.5); opacity: 1; } }
+        @keyframes splashOut { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.05); visibility: hidden; } }
+
+        /* ===== TOPO ===== */
+        .top-bar {
+            width: 100%;
+            max-width: 1200px;
+            padding: 14px 24px 8px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            z-index: 2;
+            position: relative;
+        }
+        .logo-sky { display: flex; align-items: center; gap: 12px; }
+        .logo-sky .icon { font-size: 28px; color: #ff1a1a; text-shadow: 0 0 30px rgba(255,26,26,0.3); }
+        .logo-sky .nome {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            font-style: italic;
+            color: #fff;
+            letter-spacing: 3px;
+        }
+        .logo-sky .nome span { color: #ff1a1a; }
+        .logo-sky .sub {
+            font-size: 9px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: #888;
+            text-transform: uppercase;
+            margin-left: 4px;
+            border-left: 1px solid #333;
+            padding-left: 10px;
+        }
+        .top-bar .status {
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .top-bar .status .dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            margin-right: 8px;
+            box-shadow: 0 0 20px rgba(0,255,136,0.3);
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+        .gold-line {
+            width: 100%;
+            max-width: 1200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), #ff1a1a, rgba(255,215,0,0.3), transparent);
+            flex-shrink: 0;
+            z-index: 2;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        /* ===== ABAS (ESCONDIDAS) ===== */
+        .tabs {
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            height: 0 !important;
+            overflow: hidden !important;
+        }
+
+        /* ===== PLAYER ===== */
+        .player-container {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: 6px 16px 16px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ===== FUNDO ANIMADO LED ===== */
+        .player-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(255, 26, 26, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 26, 26, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(180, 0, 0, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: ledPulse 4s ease-in-out infinite;
+        }
+
+        .player-container::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 200%; height: 100%;
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    transparent 0px,
+                    transparent 80px,
+                    rgba(255, 26, 26, 0.05) 80px,
+                    rgba(255, 26, 26, 0.05) 82px
+                );
+            pointer-events: none;
+            z-index: 0;
+            animation: ledScroll 8s linear infinite;
+        }
+
+        @keyframes ledPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes ledScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ===== ORBES DE LUZ ===== */
+        .light-orbs {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .light-orbs::before,
+        .light-orbs::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: orbFloat 10s ease-in-out infinite;
+        }
+
+        .light-orbs::before {
+            width: 200px; height: 200px;
+            background: rgba(255, 26, 26, 0.15);
+            top: 10%; left: 10%;
+            animation-delay: 0s;
+        }
+
+        .light-orbs::after {
+            width: 250px; height: 250px;
+            background: rgba(255, 26, 26, 0.1);
+            bottom: 10%; right: 10%;
+            animation-delay: 3s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 40px) scale(0.95); }
+            75% { transform: translate(30px, 30px) scale(1.05); }
+        }
+
+        /* ===== PLAYER ===== */
+        .player-wrapper {
+            width: 100%;
+            height: 100%;
+            max-height: 80vh;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 0 60px rgba(255,26,26,0.15), 0 20px 60px rgba(0,0,0,0.9);
+            position: relative;
+            border: 1px solid rgba(255,215,0,0.08);
+            z-index: 2;
+        }
+        .player-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.15), transparent 40%, transparent 60%, rgba(255,26,26,0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .player-wrapper iframe,
+        .player-wrapper video {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            border: none;
+            display: block;
+            background: #000;
+        }
+        .player-wrapper.oculto { display: none; }
+        .player-wrapper .player-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 24px;
+            z-index: 4;
+            font-family: 'Playfair Display', serif;
+            font-size: 11px;
+            font-style: italic;
+            color: rgba(255,255,255,0.06);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        /* ===== RODAPÉ ===== */
+        .footer-bar {
+            width: 100%;
+            max-width: 1200px;
+            padding: 4px 24px 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 2;
+            position: relative;
+        }
+        .footer-bar .info {
+            font-size: 10px;
+            color: #333;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .footer-bar .info span { color: #ff1a1a; }
+        .footer-bar .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 12px;
+            font-style: italic;
+            color: #222;
+            letter-spacing: 2px;
+        }
+
+        /* ===== MENSAGEM DE ERRO ===== */
+        .erro-msg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 400px;
+            color: #ff6b6b;
+            font-size: 18px;
+            text-align: center;
+            padding: 30px;
+            flex-direction: column;
+            gap: 14px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .erro-msg .icone { font-size: 56px; }
+        .erro-msg .titulo { font-size: 20px; font-weight: 700; color: #fff; }
+        .erro-msg .descricao { font-size: 14px; color: #888; max-width: 500px; }
+
+        /* ===== LOADING ===== */
+        .loading-player {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 400px;
+            flex-direction: column;
+            gap: 20px;
+            color: #666;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .loading-player .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,26,26,0.2);
+            border-top-color: #ff1a1a;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-player .texto {
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 600px) {
+            .logo-sky .nome { font-size: 18px; }
+            .logo-sky .sub { font-size: 7px; padding-left: 6px; letter-spacing: 2px; }
+            .player-wrapper iframe,
+            .player-wrapper video { min-height: 200px; }
+            .player-container { padding: 4px 8px 8px 8px; }
+            .top-bar { padding: 10px 16px 4px 16px; }
+            .top-bar .status { font-size: 8px; letter-spacing: 1px; }
+            .top-bar .status .dot { width: 6px; height: 6px; margin-right: 4px; }
+            .footer-bar .info { font-size: 8px; }
+            .footer-bar .brand { font-size: 9px; }
+            .player-wrapper .player-overlay { font-size: 8px; bottom: 12px; right: 16px; letter-spacing: 3px; }
+            .logo-splash .nome { font-size: 40px; letter-spacing: 4px; }
+            .logo-splash .sub { font-size: 10px; letter-spacing: 5px; }
+            .logo-splash .underline { width: 60%; }
+            .erro-msg { min-height: 250px; padding: 20px; }
+            .erro-msg .icone { font-size: 40px; }
+            .erro-msg .titulo { font-size: 16px; }
+            .erro-msg .descricao { font-size: 12px; }
+        }
+
+        @media (max-width: 400px) {
+            .logo-sky .nome { font-size: 14px; }
+            .logo-sky .icon { font-size: 18px; }
+            .logo-sky .sub { display: none; }
+            .logo-splash .nome { font-size: 30px; letter-spacing: 3px; }
+            .logo-splash .sub { font-size: 8px; letter-spacing: 3px; }
+        }
+
+        /* ============================================================
+           GAVETA DE CANAIS (BOTÃO FLUTUANTE)
+           ============================================================ */
+        #btnCanais {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9998;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #000;
+            border: 2px solid #00ff88;
+            color: #00ff88;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 0 20px rgba(0, 255, 136, 0.4),
+                0 0 40px rgba(0, 255, 136, 0.2),
+                inset 0 0 20px rgba(0, 255, 136, 0.05);
+            transition: all 0.3s ease;
+            animation: pulseLive 2s ease-in-out infinite;
+        }
+
+        #btnCanais:hover {
+            transform: scale(1.1);
+            box-shadow:
+                0 0 30px rgba(0, 255, 136, 0.6),
+                0 0 60px rgba(0, 255, 136, 0.3);
+        }
+
+        #btnCanais.ativo {
+            background: #00ff88;
+            color: #000;
+        }
+
+        #btnCanais .icone {
+            transition: transform 0.3s ease;
+        }
+
+        #btnCanais.ativo .icone {
+            transform: rotate(90deg);
+        }
+
+        @keyframes pulseLive {
+            0%, 100% {
+                box-shadow:
+                    0 0 20px rgba(0, 255, 136, 0.4),
+                    0 0 40px rgba(0, 255, 136, 0.2),
+                    inset 0 0 20px rgba(0, 255, 136, 0.05);
+            }
+            50% {
+                box-shadow:
+                    0 0 30px rgba(0, 255, 136, 0.7),
+                    0 0 60px rgba(0, 255, 136, 0.4),
+                    inset 0 0 30px rgba(0, 255, 136, 0.1);
+            }
+        }
+
+        #gavetaCanais {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 320px;
+            max-width: 85%;
+            height: 100vh;
+            background: #0a0a0a;
+            z-index: 9997;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.9);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(0, 255, 136, 0.15);
+            overflow: hidden;
+        }
+
+        #gavetaCanais.aberta {
+            right: 0;
+        }
+
+        .gaveta-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gaveta-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 0% 50%, rgba(0, 255, 136, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .gaveta-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            font-style: italic;
+            color: #fff;
+            letter-spacing: 2px;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gaveta-header h3 span {
+            color: #ff1a1a;
+        }
+
+        .gaveta-header .status {
+            font-size: 9px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #00ff88;
+            text-transform: uppercase;
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gaveta-header .status .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00ff88;
+            margin-right: 6px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+            animation: pulse-dot 2s infinite;
+        }
+
+        .gaveta-close {
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px 8px;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s;
+        }
+
+        .gaveta-close:hover {
+            color: #ff1a1a;
+        }
+
+        .gaveta-lista {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .gaveta-lista::-webkit-scrollbar { width: 4px; }
+        .gaveta-lista::-webkit-scrollbar-track { background: transparent; }
+        .gaveta-lista::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 136, 0.3);
+            border-radius: 4px;
+        }
+        .gaveta-lista::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 136, 0.6);
+        }
+
+        .gaveta-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gaveta-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            height: 100%;
+            width: 3px;
+            background: #00ff88;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+            transform-origin: center;
+        }
+
+        .gaveta-item:hover {
+            background: rgba(0, 255, 136, 0.05);
+            border-color: rgba(0, 255, 136, 0.3);
+            transform: translateX(-4px);
+        }
+
+        .gaveta-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .gaveta-item.ativo {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
+        }
+
+        .gaveta-item.ativo::before {
+            transform: scaleY(1);
+        }
+
+        .gaveta-item .numero {
+            font-family: 'Playfair Display', serif;
+            font-size: 11px;
+            font-weight: 700;
+            font-style: italic;
+            color: #00ff88;
+            opacity: 0.6;
+            min-width: 24px;
+        }
+
+        .gaveta-item.ativo .numero {
+            opacity: 1;
+        }
+
+        .gaveta-item .nome {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #ccc;
+            text-transform: uppercase;
+            flex: 1;
+        }
+
+        .gaveta-item.ativo .nome {
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .gaveta-item .live-badge {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            display: none;
+        }
+
+        .gaveta-item.ativo .live-badge {
+            display: inline-block;
+        }
+
+        .gaveta-footer {
+            padding: 12px 24px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            text-align: center;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #333;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .gaveta-footer span {
+            color: #00ff88;
+        }
+
+        #gavetaOverlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 9996;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        #gavetaOverlay.ativo {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 600px) {
+            #btnCanais {
+                width: 56px;
+                height: 56px;
+                font-size: 24px;
+                bottom: 20px;
+                right: 20px;
+            }
+            #gavetaCanais { width: 280px; }
+            .gaveta-header h3 { font-size: 17px; }
+            .gaveta-item { padding: 12px 14px; }
+            .gaveta-item .nome { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SPLASH ===== -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="bg-effects">
+            <div class="light-1"></div>
+            <div class="light-2"></div>
+            <div class="light-3"></div>
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3"></div>
+            <div class="particles">
+                <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+                <div class="particle"></div><div class="particle"></div>
+            </div>
+        </div>
+        <div class="logo-splash">
+            <div class="nome">SKY <span class="mod-destaque">MOD</span></div>
+            <div class="underline"></div>
+            <div class="sub">Luxury IPTV</div>
+        </div>
+    </div>
+
+    <!-- ===== CONTEÚDO ===== -->
+    <div class="bg-pattern"></div>
+
+    <div class="top-bar">
+        <div class="logo-sky">
+            <span class="icon">✦</span>
+            <span class="nome">SKY <span>MOD</span></span>
+            <span class="sub">Luxury IPTV</span>
+        </div>
+        <div class="status">
+            <span class="dot"></span> LIVE · 4K UHD
+        </div>
+    </div>
+
+    <div class="gold-line"></div>
+
+    <!-- ===== ABAS (ESCONDIDAS - SÓ PRA GUARDAR OS CANAIS) ===== -->
+    <div class="tabs" id="tabButtons">
+        <button class="ativa" data-tab="sbt"><span class="numero">01</span>SBT</button>
+        <button data-tab="redetv"><span class="numero">02</span>Rede TV</button>
+        <button data-tab="cultura"><span class="numero">03</span>TV Cultura</button>
+        <button data-tab="globo"><span class="numero">04</span>GLOBO</button>
+        <button data-tab="canal"><span class="numero">05</span>CANAL</button>
+        <!-- Adicione novas abas aqui que a gaveta detecta sozinha -->
+    </div>
+
+    <div class="player-container">
+        <!-- Orbes de luz de fundo -->
+        <div class="light-orbs"></div>
+        
+        <div class="player-wrapper" id="player-sbt"><div class="player-overlay">✦ LIVE</div></div>
+        <div class="player-wrapper oculto" id="player-redetv"><div class="player-overlay">✦ LIVE</div></div>
+        <div class="player-wrapper oculto" id="player-cultura"><div class="player-overlay">✦ LIVE</div></div>
+        <div class="player-wrapper oculto" id="player-globo"><div class="player-overlay">✦ LIVE</div></div>
+        <div class="player-wrapper oculto" id="player-canal"><div class="player-overlay">✦ LIVE</div></div>
+    </div>
+
+    <div class="footer-bar">
+        <div class="info"><span>✦</span> SKY MOD · PREMIUM CHANNELS</div>
+        <div class="brand">✦ luxe</div>
+    </div>
+
+    <!-- ===== BOTÃO FLUTUANTE ===== -->
+    <button id="btnCanais" title="Ver todos os canais" aria-label="Abrir lista de canais">
+        <span class="icone">☰</span>
+    </button>
+
+    <!-- ===== OVERLAY ESCURO ===== -->
+    <div id="gavetaOverlay"></div>
+
+    <!-- ===== GAVETA DE CANAIS ===== -->
+    <div id="gavetaCanais" role="dialog" aria-label="Lista de canais">
+        <div class="gaveta-header">
+            <div>
+                <h3>SKY <span>MOD</span></h3>
+                <div class="status"><span class="dot"></span> CANAIS AO VIVO</div>
+            </div>
+            <button class="gaveta-close" title="Fechar" aria-label="Fechar">✕</button>
+        </div>
+        <div class="gaveta-lista" id="gavetaLista"></div>
+        <div class="gaveta-footer">
+            Total: <span id="gavetaTotal">0</span> canais
+        </div>
+    </div>
+
+    <!-- ============================================================
+    HLS.JS
+    ============================================================ -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // CONFIGURAÇÃO DAS TRANSMISSÕES
+            // ============================================================
+            const CANAIS = {
+                sbt: {
+                    nome: 'SBT',
+                    url: 'https://www.youtube.com/embed/LLpNUqHVam8?autoplay=1&controls=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3'
+                },
+                redetv: {
+                    nome: 'Rede TV',
+                    url: 'https://geo.dailymotion.com/player/xgrus.html?video=kYe5OYErhldJ75Azib2&autoplay=1'
+                },
+                cultura: {
+                    nome: 'TV Cultura',
+                    url: 'https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8',
+                    tipo: 'hls',
+                    headers: {
+                        'Referer': 'https://www.cxtv.com.br/',
+                        'Origin': 'https://www.cxtv.com.br'
+                    }
+                },
+                globo: {
+                    nome: 'GLOBO',
+                    url: 'https://megaflix.mgfiles.lat/ea4564eea5c614876989b6fd90ba4700/file.m3u8',
+                    tipo: 'hls'
+                },
+                canal: {
+                    nome: 'CANAL',
+                    url: 'https://www.youtube.com/embed/rEKifG2XUZg?autoplay=true'                    
+                }
+            };
+
+            // ============================================================
+            // DETECÇÃO DE TIPO DE PLAYER
+            // ============================================================
+            function detectarTipoPlayer(url) {
+                if (!url) return 'desconhecido';
+                const u = url.toLowerCase();
+                if (u.includes('youtube.com/embed') || u.includes('youtu.be') || u.includes('youtube.com/watch')) return 'youtube';
+                if (u.includes('dailymotion.com')) return 'dailymotion';
+                if (u.includes('vimeo.com')) return 'vimeo';
+                if (u.includes('.m3u8')) return 'hls';
+                if (u.includes('.ts') && !u.includes('test')) return 'hls';
+                if (u.match(/\.(mp4|webm|mkv|mov|m4v|ogv)(\?|$)/)) return 'video';
+                if (u.match(/\.(m3u|pls)(\?|$)/)) return 'hls';
+                if (u.includes('twitter.com') || u.includes('x.com')) return 'twitter';
+                if (u.includes('twitch.tv')) return 'twitch';
+                if (u.includes('facebook.com')) return 'facebook';
+                if (u.includes('instagram.com')) return 'instagram';
+                if (u.includes('tiktok.com')) return 'tiktok';
+                if (u.includes('/embed') || u.includes('/player') || u.match(/\.(html|php)(\?|$)/)) return 'iframe';
+                return 'iframe';
+            }
+
+            // ============================================================
+            // CRIA PLAYER UNIVERSAL
+            // ============================================================
+            function criarPlayerUniversal(abaId, container) {
+                const config = CANAIS[abaId];
+                if (!config) return null;
+
+                const url = config.url;
+                const tipo = config.tipo || detectarTipoPlayer(url);
+
+                container.innerHTML = '';
+
+                const loading = document.createElement('div');
+                loading.className = 'loading-player';
+                loading.innerHTML = `<div class="spinner"></div><div class="texto">Carregando ${config.nome}...</div>`;
+                container.appendChild(loading);
+
+                const overlay = document.createElement('div');
+                overlay.className = 'player-overlay';
+                overlay.textContent = '✦ LIVE';
+
+                let playerElement = null;
+
+                try {
+                    switch (tipo) {
+                        case 'hls':
+                            playerElement = criarPlayerHLS(url, config, container);
+                            break;
+                        case 'video':
+                            playerElement = criarPlayerVideo(url, config);
+                            break;
+                        default:
+                            playerElement = criarIframe(url, config);
+                    }
+
+                    if (playerElement) {
+                        container.innerHTML = '';
+                        container.appendChild(overlay);
+                        container.appendChild(playerElement);
+                    }
+                } catch (erro) {
+                    console.error('Erro ao criar player:', erro);
+                    mostrarErro(container, config, erro.message);
+                }
+            }
+
+            function criarIframe(url, config) {
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write';
+                iframe.allowFullscreen = true;
+                iframe.loading = 'lazy';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('scrolling', 'no');
+                return iframe;
+            }
+
+            function criarPlayerHLS(url, config, container) {
+                const video = document.createElement('video');
+                video.controls = true;
+                video.autoplay = true;
+                video.muted = false;
+                video.playsInline = true;
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.background = '#000';
+                video.style.objectFit = 'contain';
+
+                const suporteNativoHLS = video.canPlayType('application/vnd.apple.mpegurl') || video.canPlayType('application/x-mpegURL');
+
+                if (suporteNativoHLS && !window.Hls) {
+                    video.src = url;
+                } else if (window.Hls && window.Hls.isSupported()) {
+                    const hls = new Hls({
+                        enableWorker: true,
+                        lowLatencyMode: true,
+                        backBufferLength: 90,
+                        maxBufferLength: 30,
+                        maxMaxBufferLength: 60,
+                        manifestLoadingTimeOut: 10000,
+                        manifestLoadingMaxRetry: 3,
+                        levelLoadingTimeOut: 10000,
+                        levelLoadingMaxRetry: 3,
+                        fragLoadingTimeOut: 20000,
+                        fragLoadingMaxRetry: 4,
+                        xhrSetup: function(xhr, u) {
+                            if (config.headers) {
+                                Object.keys(config.headers).forEach(key => {
+                                    try { xhr.setRequestHeader(key, config.headers[key]); } catch (e) {}
+                                });
+                            }
+                            xhr.withCredentials = false;
+                        }
+                    });
+
+                    hls.loadSource(url);
+                    hls.attachMedia(video);
+
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        video.play().catch(function(e) {});
+                    });
+
+                    hls.on(Hls.Events.ERROR, function(event, data) {
+                        if (data.fatal) {
+                            switch (data.type) {
+                                case Hls.ErrorTypes.NETWORK_ERROR: hls.startLoad(); break;
+                                case Hls.ErrorTypes.MEDIA_ERROR: hls.recoverMediaError(); break;
+                                default:
+                                    hls.destroy();
+                                    mostrarErro(container, config, 'Não foi possível carregar a transmissão.');
+                                    break;
+                            }
+                        }
+                    });
+
+                    video._hls = hls;
+                } else {
+                    video.src = url;
+                }
+
+                video.addEventListener('error', function() {
+                    mostrarErro(container, config, 'Erro ao carregar o vídeo.');
+                });
+
+                return video;
+            }
+
+            function criarPlayerVideo(url, config) {
+                const video = document.createElement('video');
+                video.controls = true;
+                video.autoplay = true;
+                video.muted = false;
+                video.playsInline = true;
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.background = '#000';
+                video.style.objectFit = 'contain';
+                video.src = url;
+                return video;
+            }
+
+            function mostrarErro(container, config, mensagem) {
+                const overlay = document.createElement('div');
+                overlay.className = 'player-overlay';
+                overlay.textContent = '✦ LIVE';
+
+                const erro = document.createElement('div');
+                erro.className = 'erro-msg';
+                erro.innerHTML = `
+                    <div class="icone">📡</div>
+                    <div class="titulo">${config.nome} indisponível</div>
+                    <div class="descricao">${mensagem || 'A transmissão não pôde ser carregada.'}</div>
+                `;
+
+                container.innerHTML = '';
+                container.appendChild(overlay);
+                container.appendChild(erro);
+            }
+
+            // ============================================================
+            // SISTEMA DE ABAS
+            // ============================================================
+            const botoes = document.querySelectorAll('#tabButtons button');
+            const containers = {
+                sbt: document.getElementById('player-sbt'),
+                redetv: document.getElementById('player-redetv'),
+                cultura: document.getElementById('player-cultura'),
+                globo: document.getElementById('player-globo'),
+                canal: document.getElementById('player-canal')
+            };
+
+            function trocarAba(abaId) {
+                const containerAtual = containers[abaId];
+                if (!containerAtual) return;
+
+                const outros = Object.keys(containers).filter(k => k !== abaId);
+
+                const playerExistente = containerAtual.querySelector('iframe, video');
+                if (!playerExistente) {
+                    criarPlayerUniversal(abaId, containerAtual);
+                }
+
+                containerAtual.classList.remove('oculto');
+
+                outros.forEach(key => {
+                    const outro = containers[key];
+                    if (!outro) return;
+                    outro.classList.add('oculto');
+
+                    const player = outro.querySelector('iframe, video');
+                    if (player) {
+                        if (player.tagName === 'VIDEO') {
+                            try {
+                                player.pause();
+                                if (player._hls) {
+                                    player._hls.destroy();
+                                    player._hls = null;
+                                }
+                            } catch (e) {}
+                        } else if (player.tagName === 'IFRAME') {
+                            try {
+                                player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                            } catch (e) {}
+                        }
+                        player.remove();
+                    }
+                });
+
+                botoes.forEach(btn => {
+                    btn.classList.toggle('ativa', btn.dataset.tab === abaId);
+                });
+            }
+
+            botoes.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    trocarAba(this.dataset.tab);
+                });
+            });
+
+            // Expõe a função globalmente pra gaveta usar
+            window.trocarAbaGlobal = trocarAba;
+
+            setTimeout(() => {
+                trocarAba('sbt');
+            }, 200);
+
+        })();
+    </script>
+
+    <!-- ============================================================
+    GAVETA DE CANAIS
+    ============================================================ -->
+    <script>
+    (function() {
+        'use strict';
+
+        const btnCanais = document.getElementById('btnCanais');
+        const gaveta = document.getElementById('gavetaCanais');
+        const overlay = document.getElementById('gavetaOverlay');
+        const lista = document.getElementById('gavetaLista');
+        const total = document.getElementById('gavetaTotal');
+        const btnClose = gaveta.querySelector('.gaveta-close');
+
+        function detectarCanais() {
+            const botoes = document.querySelectorAll('#tabButtons button');
+            lista.innerHTML = '';
+
+            botoes.forEach(function(btn) {
+                const tabId = btn.dataset.tab;
+                const numero = btn.querySelector('.numero') ? btn.querySelector('.numero').textContent.trim() : '';
+                const nome = btn.textContent.replace(numero, '').trim();
+
+                const item = document.createElement('div');
+                item.className = 'gaveta-item';
+                item.dataset.tab = tabId;
+
+                item.innerHTML = `
+                    <span class="numero">${numero}</span>
+                    <span class="nome">${nome}</span>
+                    <span class="live-badge">● LIVE</span>
+                `;
+
+                item.addEventListener('click', function() {
+                    const aba = this.dataset.tab;
+                    if (typeof window.trocarAbaGlobal === 'function') {
+                        window.trocarAbaGlobal(aba);
+                    } else {
+                        const btnOriginal = document.querySelector(`#tabButtons button[data-tab="${aba}"]`);
+                        if (btnOriginal) btnOriginal.click();
+                    }
+                    fecharGaveta();
+                });
+
+                lista.appendChild(item);
+            });
+
+            total.textContent = botoes.length;
+        }
+
+        function sincronizarAtivo() {
+            const btnAtivo = document.querySelector('#tabButtons button.ativa');
+            if (!btnAtivo) return;
+            const abaAtiva = btnAtivo.dataset.tab;
+            lista.querySelectorAll('.gaveta-item').forEach(function(item) {
+                item.classList.toggle('ativo', item.dataset.tab === abaAtiva);
+            });
+        }
+
+        function abrirGaveta() {
+            gaveta.classList.add('aberta');
+            overlay.classList.add('ativo');
+            btnCanais.classList.add('ativo');
+            sincronizarAtivo();
+        }
+
+        function fecharGaveta() {
+            gaveta.classList.remove('aberta');
+            overlay.classList.remove('ativo');
+            btnCanais.classList.remove('ativo');
+        }
+
+        function toggleGaveta() {
+            if (gaveta.classList.contains('aberta')) fecharGaveta();
+            else abrirGaveta();
+        }
+
+        btnCanais.addEventListener('click', toggleGaveta);
+        btnClose.addEventListener('click', fecharGaveta);
+        overlay.addEventListener('click', fecharGaveta);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && gaveta.classList.contains('aberta')) fecharGaveta();
+        });
+
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(m) {
+                if (m.attributeName === 'class') sincronizarAtivo();
+            });
+        });
+
+        function observarBotoes() {
+            document.querySelectorAll('#tabButtons button').forEach(function(btn) {
+                observer.observe(btn, { attributes: true, attributeFilter: ['class'] });
+            });
+        }
+
+        function init() {
+            detectarCanais();
+            observarBotoes();
+            sincronizarAtivo();
+
+            const observerDOM = new MutationObserver(function() {
+                detectarCanais();
+                observarBotoes();
+            });
+
+            const tabsContainer = document.getElementById('tabButtons');
+            if (tabsContainer) {
+                observerDOM.observe(tabsContainer, { childList: true });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            setTimeout(init, 500);
+        }
+    })();
+    </script>
+
+</body>
+  </html>
