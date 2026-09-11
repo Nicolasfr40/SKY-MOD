@@ -338,6 +338,90 @@
             cursor: pointer;
         }
 
+        /* ===== LISTA DE CANAIS EM TELA CHEIA (lado oposto aos botões) ===== */
+        .fs-channel-list {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 240px;
+            max-width: 70%;
+            z-index: 5;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(0,0,0,0.35) 75%, transparent);
+            padding: 24px 12px;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .device.fullscreen-ativo .fs-channel-list { display: flex; }
+        .fs-channel-list.escondido {
+            opacity: 0 !important;
+            transform: translateX(-24px) !important;
+            pointer-events: none !important;
+        }
+        .fs-channel-list::-webkit-scrollbar { width: 4px; }
+        .fs-channel-list::-webkit-scrollbar-track { background: transparent; }
+        .fs-channel-list::-webkit-scrollbar-thumb { background: rgba(0,255,136,.3); border-radius: 4px; }
+
+        .fs-channel-item {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 10px;
+            padding: 11px 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all .25s ease;
+            flex-shrink: 0;
+        }
+        .fs-channel-item:hover { background: rgba(0,255,136,.08); border-color: rgba(0,255,136,.35); }
+        .fs-channel-item.ativo {
+            background: rgba(0,255,136,.12);
+            border-color: rgba(0,255,136,.55);
+            box-shadow: 0 0 16px rgba(0,255,136,.2);
+        }
+        .fs-channel-item .numero {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 11px;
+            color: #00ff88;
+            opacity: .6;
+            min-width: 20px;
+        }
+        .fs-channel-item.ativo .numero { opacity: 1; }
+        .fs-channel-item .nome {
+            font-size: 12.5px;
+            font-weight: 600;
+            letter-spacing: .5px;
+            color: #ccc;
+            text-transform: uppercase;
+            flex: 1;
+        }
+        .fs-channel-item.ativo .nome { color: #fff; text-shadow: 0 0 14px rgba(0,255,136,.35); }
+        .fs-channel-item .live-tag {
+            font-size: 8px;
+            font-weight: 700;
+            color: #00ff88;
+            background: rgba(0,255,136,.12);
+            border: 1px solid rgba(0,255,136,.3);
+            border-radius: 8px;
+            padding: 2px 6px;
+            display: none;
+            flex-shrink: 0;
+        }
+        .fs-channel-item.ativo .live-tag { display: inline-block; }
+
+        @media (max-width: 600px) {
+            .fs-channel-list { width: 190px; padding: 18px 8px; gap: 6px; }
+            .fs-channel-item { padding: 9px 10px; }
+            .fs-channel-item .nome { font-size: 11px; }
+        }
+
         /* ===== SEEK BAR ===== */
         .seek-wrap{ position:relative; z-index:4; padding:18px 10px 6px; }
         .seek-track{ position:relative; height:6px; border-radius:6px; background:linear-gradient(180deg,#232323,#141414); box-shadow:inset 0 1px 3px rgba(0,0,0,.6); cursor:pointer; }
@@ -645,6 +729,7 @@
             .footer-bar { padding: 2px 12px 6px 12px !important; padding-bottom: calc(6px + env(safe-area-inset-bottom)) !important; }
             .footer-bar .info, .footer-bar .brand { font-size: 8px !important; }
             #btnCanais { width: 44px !important; height: 44px !important; font-size: 20px !important; bottom: calc(12px + env(safe-area-inset-bottom)) !important; right: 12px !important; }
+            .fs-channel-list { width: 150px !important; padding: 10px 6px !important; }
         }
 
         /* ===== GAVETA DE CANAIS ===== */
@@ -792,6 +877,8 @@
                     <span class="rec-tag">● REC</span>
                     <div id="playerMount"></div>
                     <div class="click-catcher" id="clickCatcher"></div>
+
+                    <div class="fs-channel-list" id="fsChannelList"></div>
 
                     <div class="player-buttons" id="playerButtons">
                         <button class="stretch-btn" id="stretchBtn" aria-label="Esticar / preencher tela" title="Preencher tela">
@@ -1165,23 +1252,72 @@
 
             let fullscreenAtivo = false;
             let timeoutEsconderBtn = null;
+            let interagindoComLista = false;
+
+            const fsChannelList = document.getElementById('fsChannelList');
 
             function toggleBotoes() {
                 if (playerButtons.classList.contains('escondido')) {
                     playerButtons.classList.remove('escondido');
+                    fsChannelList.classList.remove('escondido');
+                    sincronizarFsLista();
                     agendarEsconder();
                 } else {
                     playerButtons.classList.add('escondido');
+                    fsChannelList.classList.add('escondido');
                     if (timeoutEsconderBtn) clearTimeout(timeoutEsconderBtn);
                 }
             }
 
             function agendarEsconder() {
                 if (timeoutEsconderBtn) clearTimeout(timeoutEsconderBtn);
+                if (interagindoComLista) return;
                 timeoutEsconderBtn = setTimeout(function() {
                     playerButtons.classList.add('escondido');
+                    fsChannelList.classList.add('escondido');
                 }, 3000);
             }
+
+            function montarListaFullscreen() {
+                fsChannelList.innerHTML = '';
+                ordemCanais.forEach(function(id, index) {
+                    const canal = CANAIS[id];
+                    if (!canal) return;
+                    const item = document.createElement('div');
+                    item.className = 'fs-channel-item' + (id === abaAtual ? ' ativo' : '');
+                    item.dataset.tab = id;
+                    item.innerHTML =
+                        '<span class="numero">' + String(index + 1).padStart(2, '0') + '</span>' +
+                        '<span class="nome">' + canal.nome + '</span>' +
+                        '<span class="live-tag">● LIVE</span>';
+                    item.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        trocarAba(this.dataset.tab);
+                    });
+                    fsChannelList.appendChild(item);
+                });
+            }
+
+            function sincronizarFsLista() {
+                fsChannelList.querySelectorAll('.fs-channel-item').forEach(function(item) {
+                    item.classList.toggle('ativo', item.dataset.tab === abaAtual);
+                });
+            }
+
+            ['mouseenter', 'touchstart', 'mousemove', 'scroll'].forEach(function(evt) {
+                fsChannelList.addEventListener(evt, function() {
+                    interagindoComLista = true;
+                    if (timeoutEsconderBtn) clearTimeout(timeoutEsconderBtn);
+                }, { passive: true });
+            });
+            ['mouseleave', 'touchend'].forEach(function(evt) {
+                fsChannelList.addEventListener(evt, function() {
+                    interagindoComLista = false;
+                    agendarEsconder();
+                }, { passive: true });
+            });
+
+            montarListaFullscreen();
 
             clickCatcher.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -1219,6 +1355,8 @@
                     document.body.classList.add('fullscreen-ativo');
                     fullscreenAtivo = true;
                     playerButtons.classList.remove('escondido');
+                    fsChannelList.classList.remove('escondido');
+                    sincronizarFsLista();
                     agendarEsconder();
                     if (devicePlayer.requestFullscreen) devicePlayer.requestFullscreen().catch(function() {});
                 } else {
@@ -1226,6 +1364,7 @@
                     document.body.classList.remove('fullscreen-ativo');
                     fullscreenAtivo = false;
                     playerButtons.classList.remove('escondido');
+                    fsChannelList.classList.remove('escondido');
                     agendarEsconder();
                     if (document.fullscreenElement) document.exitFullscreen().catch(function() {});
                 }
@@ -1241,6 +1380,7 @@
                     document.body.classList.remove('fullscreen-ativo');
                     fullscreenAtivo = false;
                     playerButtons.classList.remove('escondido');
+                    fsChannelList.classList.remove('escondido');
                     agendarEsconder();
                 }
             });
@@ -1255,6 +1395,7 @@
                 });
                 criarPlayer(abaId);
                 setPlayingIcon(true);
+                sincronizarFsLista();
                 playerButtons.classList.remove('escondido');
                 agendarEsconder();
             }
