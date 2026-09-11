@@ -407,7 +407,7 @@
         .ctrl-btn:hover{transform:translateY(-2px);}
         .ctrl-btn:active{transform:translateY(0) scale(.94);}
 
-        /* ===== STRIPES DECORATIVAS ===== */
+        /* ===== STRIPES ===== */
         .stripes{
             display:flex;
             gap:5px;
@@ -552,6 +552,142 @@
             .logo-sky .sub { display: none; }
             .logo-splash .nome { font-size: 30px; letter-spacing: 3px; }
             .logo-splash .sub { font-size: 8px; letter-spacing: 3px; }
+        }
+
+        /* ===== MODO PAISAGEM - DEVICE ESTICA PRA TELA INTEIRA ===== */
+        @media (orientation: landscape) and (max-height: 700px) {
+            body {
+                min-height: 100vh;
+                padding-bottom: 0;
+            }
+
+            .top-bar {
+                padding: 6px 12px 2px 12px !important;
+                padding-top: calc(6px + env(safe-area-inset-top)) !important;
+            }
+
+            .logo-sky .nome { font-size: 16px !important; }
+            .logo-sky .sub { font-size: 7px !important; letter-spacing: 2px !important; }
+            .logo-sky .icon { font-size: 18px !important; }
+            .top-bar .status { font-size: 8px !important; }
+            .top-bar .status .dot { width: 5px !important; height: 5px !important; }
+
+            .gold-line { margin-bottom: 2px !important; }
+
+            .player-container {
+                padding: 4px 8px !important;
+                align-items: flex-start !important;
+                flex: 0 0 auto !important;
+            }
+
+            .device {
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 8px !important;
+                border-radius: 20px !important;
+            }
+
+            .device::before { border-radius: 20px !important; }
+            .device::after { border-radius: 20px !important; }
+
+            .corner {
+                width: 32px !important;
+                height: 32px !important;
+            }
+            .corner.tl { top: 4px !important; left: 4px !important; }
+            .corner.tr { top: 4px !important; right: 4px !important; }
+            .corner.bl { bottom: 4px !important; left: 4px !important; }
+            .corner.br { bottom: 4px !important; right: 4px !important; }
+
+            .screen-shell {
+                border-radius: 14px !important;
+            }
+
+            .screen {
+                aspect-ratio: 16 / 9 !important;
+                border-radius: 12px !important;
+                max-height: 60vh !important;
+            }
+
+            .rec-tag {
+                font-size: 8px !important;
+                padding: 3px 6px !important;
+                top: 8px !important;
+                left: 8px !important;
+            }
+
+            .fullscreen-btn {
+                width: 34px !important;
+                height: 34px !important;
+                top: 8px !important;
+                right: 8px !important;
+            }
+            .fullscreen-btn svg {
+                width: 15px !important;
+                height: 15px !important;
+            }
+
+            .seek-wrap {
+                padding: 8px 8px 2px !important;
+            }
+
+            .seek-track { height: 4px !important; }
+            .seek-thumb {
+                width: 12px !important;
+                height: 12px !important;
+            }
+            .time-row {
+                font-size: 10px !important;
+                padding: 4px 4px 0 !important;
+            }
+
+            .controls {
+                gap: 12px !important;
+                padding: 6px 0 4px !important;
+            }
+
+            .ctrl-btn.skip {
+                width: 42px !important;
+                height: 42px !important;
+            }
+            .ctrl-btn.skip svg {
+                width: 16px !important;
+                height: 16px !important;
+            }
+
+            .ctrl-btn.play {
+                width: 56px !important;
+                height: 56px !important;
+            }
+            .ctrl-btn.play svg {
+                width: 22px !important;
+                height: 22px !important;
+            }
+
+            .stripes {
+                padding: 4px 0 2px !important;
+            }
+            .stripes span {
+                width: 5px !important;
+                height: 16px !important;
+            }
+
+            .footer-bar {
+                padding: 2px 12px 6px 12px !important;
+                padding-bottom: calc(6px + env(safe-area-inset-bottom)) !important;
+            }
+            .footer-bar .info,
+            .footer-bar .brand {
+                font-size: 8px !important;
+            }
+
+            #btnCanais {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 20px !important;
+                bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+                right: 12px !important;
+            }
         }
 
         /* ===== GAVETA DE CANAIS ===== */
@@ -938,9 +1074,6 @@
                 return video;
             }
 
-            // ============================================================
-            // CONTROLES
-            // ============================================================
             const playBtn = document.getElementById('playBtn');
             const iconPlay = document.getElementById('iconPlay');
             const iconPause = document.getElementById('iconPause');
@@ -979,9 +1112,6 @@
                 durationTimeEl.textContent = formatTime(duration);
             }
 
-            // ============================================================
-            // PAUSE / PLAY UNIVERSAL
-            // ============================================================
             function pausarVideo() {
                 if (!playerAtual) return false;
 
@@ -996,26 +1126,22 @@
                 if (playerAtual.tagName === 'IFRAME') {
                     const src = (playerAtual.src || '').toLowerCase();
                     try {
-                        // YouTube
                         if (src.includes('youtube') || src.includes('youtu.be')) {
                             playerAtual.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                             setPlayingIcon(false);
                             return true;
                         }
-                        // Dailymotion — usa o método correto
                         if (src.includes('dailymotion')) {
                             playerAtual.contentWindow.postMessage('{"event":"command","func":"pause","args":""}', '*');
                             playerAtual.contentWindow.postMessage('{"method":"pause"}', '*');
                             setPlayingIcon(false);
                             return true;
                         }
-                        // Vimeo
                         if (src.includes('vimeo')) {
                             playerAtual.contentWindow.postMessage('{"method":"pause"}', '*');
                             setPlayingIcon(false);
                             return true;
                         }
-                        // Genérico
                         playerAtual.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                         playerAtual.contentWindow.postMessage('{"event":"command","func":"pause","args":""}', '*');
                         playerAtual.contentWindow.postMessage('{"method":"pause"}', '*');
@@ -1070,17 +1196,10 @@
             playBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (!playerAtual) return;
-
-                if (playing) {
-                    pausarVideo();
-                } else {
-                    despausarVideo();
-                }
+                if (playing) pausarVideo();
+                else despausarVideo();
             });
 
-            // ============================================================
-            // CANAL ANTERIOR / PRÓXIMO
-            // ============================================================
             function canalAnterior() {
                 const idx = ordemCanais.indexOf(abaAtual);
                 if (idx === -1) return;
@@ -1130,9 +1249,6 @@
             window.addEventListener('touchmove', e => { if (dragging) seekFromClientX(e.touches[0].clientX); }, {passive:true});
             window.addEventListener('touchend', () => { dragging = false; });
 
-            // ============================================================
-            // FULLSCREEN + TOGGLE
-            // ============================================================
             let fullscreenAtivo = false;
             let timeoutEsconderBtn = null;
 
@@ -1201,26 +1317,16 @@
                 }
             });
 
-            // ============================================================
-            // SISTEMA DE ABAS
-            // ============================================================
             const botoes = document.querySelectorAll('#tabButtons button');
 
             function trocarAba(abaId) {
                 if (!CANAIS[abaId]) return;
-
-                // Pausa o player atual antes de trocar
                 pausarVideo();
-
                 botoes.forEach(btn => {
                     btn.classList.toggle('ativa', btn.dataset.tab === abaId);
                 });
-
                 criarPlayer(abaId);
-
-                // Reseta o botão play
                 setPlayingIcon(true);
-
                 fullscreenBtn.classList.remove('escondido');
                 agendarEsconder();
             }
