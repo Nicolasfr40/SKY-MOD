@@ -143,7 +143,6 @@
             overflow: visible;
         }
 
-        /* ===== DEVICE ===== */
         :root{
             --red-1:#ff1a1a;
             --red-2:#8a0000;
@@ -248,7 +247,6 @@
             inset:0;
         }
 
-        /* ===== BOTÕES DO PLAYER ===== */
         .player-buttons {
             position: absolute;
             top: 14px;
@@ -338,7 +336,6 @@
             cursor: pointer;
         }
 
-        /* ===== LISTA DE CANAIS EM TELA CHEIA (lado oposto aos botões) ===== */
         .fs-channel-list {
             display: none;
             position: absolute;
@@ -422,14 +419,12 @@
             .fs-channel-item .nome { font-size: 11px; }
         }
 
-        /* ===== SEEK BAR ===== */
         .seek-wrap{ position:relative; z-index:4; padding:18px 10px 6px; }
         .seek-track{ position:relative; height:6px; border-radius:6px; background:linear-gradient(180deg,#232323,#141414); box-shadow:inset 0 1px 3px rgba(0,0,0,.6); cursor:pointer; }
         .seek-fill{ position:absolute; left:0; top:0; bottom:0; width:0%; border-radius:6px; background:linear-gradient(90deg, var(--green-2), var(--green-1)); box-shadow:0 0 12px var(--green-glow); transition: width 0.2s linear; }
         .seek-thumb{ position:absolute; top:50%; left:0%; width:16px;height:16px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #d6ffe6, var(--green-1) 60%); box-shadow:0 0 10px 3px var(--green-glow), 0 0 0 3px rgba(0,0,0,.5); transform:translate(-50%,-50%); cursor:grab; transition: left 0.2s linear; }
         .time-row{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-dim); font-variant-numeric:tabular-nums; padding:9px 4px 0; letter-spacing:.3px; }
 
-        /* ===== CONTROLES ===== */
         .controls{ position:relative; z-index:4; display:flex; align-items:center; justify-content:center; gap:22px; padding:20px 0 8px; }
         .ctrl-btn{ position:relative; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 35% 30%, #10230f, #050a05 75%); color:var(--green-1); transition:transform .12s ease, box-shadow .12s ease; }
         .ctrl-btn.skip{ width:60px;height:60px; border-radius:50%; border:1px solid rgba(0,255,106,.4); box-shadow:0 0 14px rgba(0,255,106,.25), inset 0 0 8px rgba(0,255,106,.12); }
@@ -442,163 +437,74 @@
         .stripes{ display:flex; gap:5px; justify-content: center; padding: 12px 0 4px; position: relative; z-index: 4; }
         .stripes span{ width:8px;height:26px; background:linear-gradient(180deg, var(--red-1), var(--red-2)); clip-path:polygon(40% 0, 100% 0, 60% 100%, 0 100%); box-shadow:0 0 8px var(--red-glow); }
 
-        /* ===== FULLSCREEN TOTAL ===== */
         .device.fullscreen-ativo {
             position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100dvh !important;
-            max-width: 100vw !important;
-            max-height: 100vh !important;
-            max-height: 100dvh !important;
-            border-radius: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            z-index: 999999 !important;
-            background: #000 !important;
-            box-shadow: none !important;
-            overflow: hidden !important;
+            top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            max-width: 100vw !important; max-height: 100vh !important; max-height: 100dvh !important;
+            border-radius: 0 !important; padding: 0 !important; margin: 0 !important;
+            z-index: 999999 !important; background: #000 !important; box-shadow: none !important; overflow: hidden !important;
         }
-
         .device.fullscreen-ativo::before,
         .device.fullscreen-ativo::after { display: none !important; }
-
         .device.fullscreen-ativo .seek-wrap,
         .device.fullscreen-ativo .controls,
         .device.fullscreen-ativo .stripes,
         .device.fullscreen-ativo .corner,
         .device.fullscreen-ativo .rec-tag { display: none !important; }
-
         .device.fullscreen-ativo .screen-shell {
             position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100dvh !important;
-            min-height: 100vh !important;
-            min-height: 100dvh !important;
-            max-width: 100vw !important;
-            max-height: 100vh !important;
-            max-height: 100dvh !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            background: #000 !important;
-            display: block !important;
-            overflow: hidden !important;
+            top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            min-height: 100vh !important; min-height: 100dvh !important;
+            max-width: 100vw !important; max-height: 100vh !important; max-height: 100dvh !important;
+            padding: 0 !important; margin: 0 !important; border-radius: 0 !important;
+            box-shadow: none !important; background: #000 !important; display: block !important; overflow: hidden !important;
         }
-
         .device.fullscreen-ativo .screen {
             position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100dvh !important;
-            min-height: 100vh !important;
-            min-height: 100dvh !important;
-            max-width: 100vw !important;
-            max-height: 100vh !important;
-            max-height: 100dvh !important;
-            border-radius: 0 !important;
-            aspect-ratio: auto !important;
-            background: #000 !important;
-            overflow: hidden !important;
+            top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            min-height: 100vh !important; min-height: 100dvh !important;
+            max-width: 100vw !important; max-height: 100vh !important; max-height: 100dvh !important;
+            border-radius: 0 !important; aspect-ratio: auto !important; background: #000 !important; overflow: hidden !important;
         }
-
         .device.fullscreen-ativo #playerMount {
             position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
+            top: 0 !important; left: 0 !important;
+            width: 100% !important; height: 100% !important;
             background: #000 !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            overflow: hidden !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            display: flex !important; align-items: center !important; justify-content: center !important;
+            overflow: hidden !important; padding: 0 !important; margin: 0 !important;
         }
-
-        /* FULLSCREEN normal - vídeo centralizado via flexbox */
         .device.fullscreen-ativo #playerMount iframe,
         .device.fullscreen-ativo #playerMount video {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            transform: none !important;
-            width: 100% !important;
-            height: 100% !important;
-            max-width: 100vw !important;
-            max-height: 100vh !important;
-            max-height: 100dvh !important;
-            object-fit: contain !important;
-            display: block !important;
-            background: #000 !important;
-            margin: auto !important;
-            flex-shrink: 0 !important;
+            position: relative !important; top: auto !important; left: auto !important;
+            transform: none !important; width: 100% !important; height: 100% !important;
+            max-width: 100vw !important; max-height: 100vh !important; max-height: 100dvh !important;
+            object-fit: contain !important; display: block !important; background: #000 !important;
+            margin: auto !important; flex-shrink: 0 !important;
         }
-
-        /* ============================================
-           🎯 STRETCH UNIVERSAL - PREENCHE TUDO
-           ============================================ */
-
-        /* FULLSCREEN + STRETCH - vídeo nativo (m3u8, mp4) */
         .device.fullscreen-ativo.stretch-ativo #playerMount video {
             position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
+            top: 50% !important; left: 50% !important;
             transform: translate(-50%, -50%) !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100dvh !important;
-            min-width: 100vw !important;
-            min-height: 100vh !important;
-            max-width: none !important;
-            max-height: none !important;
-            object-fit: cover !important;
-            margin: 0 !important;
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            min-width: 100vw !important; min-height: 100vh !important;
+            max-width: none !important; max-height: none !important;
+            object-fit: cover !important; margin: 0 !important;
         }
-
-        /* FULLSCREEN + STRETCH - iframe (YouTube, Dailymotion, etc) */
         .device.fullscreen-ativo.stretch-ativo #playerMount iframe {
             position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
-            /* ZOOM no iframe pra preencher tudo */
+            top: 50% !important; left: 50% !important;
             transform: translate(-50%, -50%) scale(1.4) !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100dvh !important;
-            min-width: 100vw !important;
-            min-height: 100vh !important;
-            max-width: none !important;
-            max-height: none !important;
-            margin: 0 !important;
-            border: none !important;
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            min-width: 100vw !important; min-height: 100vh !important;
+            max-width: none !important; max-height: none !important;
+            margin: 0 !important; border: none !important;
         }
-
-        /* STRETCH SEM FULLSCREEN - vídeo nativo */
-        .device.stretch-ativo:not(.fullscreen-ativo) #playerMount video {
-            object-fit: cover !important;
-        }
-
-        /* STRETCH SEM FULLSCREEN - iframe */
-        .device.stretch-ativo:not(.fullscreen-ativo) #playerMount iframe {
-            transform: scale(1.3) !important;
-            transform-origin: center !important;
-        }
+        .device.stretch-ativo:not(.fullscreen-ativo) #playerMount video { object-fit: cover !important; }
+        .device.stretch-ativo:not(.fullscreen-ativo) #playerMount iframe { transform: scale(1.3) !important; transform-origin: center !important; }
 
         body.fullscreen-ativo { overflow: hidden !important; position: fixed !important; width: 100% !important; height: 100% !important; top: 0 !important; left: 0 !important; margin: 0 !important; padding: 0 !important; }
         body.fullscreen-ativo .top-bar,
@@ -607,26 +513,14 @@
         body.fullscreen-ativo .tabs,
         body.fullscreen-ativo::before { display: none !important; }
         body.fullscreen-ativo .player-container {
-            padding: 0 !important;
-            margin: 0 !important;
-            flex: none !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100dvh !important;
-            max-width: 100vw !important;
-            max-height: 100vh !important;
-            z-index: 999999 !important;
-            display: block !important;
-            overflow: hidden !important;
+            padding: 0 !important; margin: 0 !important; flex: none !important;
+            position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            max-width: 100vw !important; max-height: 100vh !important;
+            z-index: 999999 !important; display: block !important; overflow: hidden !important;
         }
         body.fullscreen-ativo #btnCanais { display: none !important; }
 
-        /* ===== ERRO / LOADING ===== */
         .erro-msg { display: flex; align-items: center; justify-content: center; height: 100%; color: #ff6b6b; font-size: 16px; text-align: center; padding: 20px; flex-direction: column; gap: 10px; font-family: 'Montserrat', sans-serif; background:#000; }
         .erro-msg .icone { font-size: 40px; }
         .erro-msg .titulo { font-size: 16px; font-weight: 700; color: #fff; }
@@ -637,7 +531,6 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-player .texto { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* ===== RODAPÉ DO APP ===== */
         .footer-bar {
             width: 100%;
             max-width: 1200px;
@@ -654,7 +547,6 @@
         .footer-bar .info span { color: #ff1a1a; }
         .footer-bar .brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: #222; letter-spacing: 2px; }
 
-        /* ===== RESPONSIVO ===== */
         @media (max-width: 600px) {
             .logo-sky .nome { font-size: 18px; }
             .logo-sky .sub { font-size: 7px; padding-left: 6px; letter-spacing: 2px; }
@@ -690,7 +582,6 @@
             .logo-splash .sub { font-size: 8px; letter-spacing: 3px; }
         }
 
-        /* ===== MODO PAISAGEM ===== */
         @media (orientation: landscape) and (max-height: 700px) {
             body { min-height: 100vh; padding-bottom: 0; }
             .top-bar { padding: 6px 12px 2px 12px !important; padding-top: calc(6px + env(safe-area-inset-top)) !important; }
@@ -732,7 +623,6 @@
             .fs-channel-list { width: 150px !important; padding: 10px 6px !important; }
         }
 
-        /* ===== GAVETA DE CANAIS ===== */
         #btnCanais {
             position: fixed;
             bottom: calc(24px + env(safe-area-inset-bottom));
@@ -818,6 +708,109 @@
             .gaveta-header h3 { font-size: 17px; }
             .gaveta-item { padding: 12px 14px; }
             .gaveta-item .nome { font-size: 12px; }
+        }
+
+        /* ============================================================
+           🖥️ MODO SMART TV / TV BOX — interface em paisagem, preenche tudo
+           ============================================================ */
+        body.smart-tv {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+        }
+
+        body.smart-tv .player-container {
+            max-width: 100vw !important;
+            padding: 16px 48px 24px 48px !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        body.smart-tv .device {
+            max-width: min(1400px, 94vw) !important;
+            width: 94vw !important;
+            padding: 22px !important;
+            border-radius: 26px !important;
+        }
+
+        body.smart-tv .screen {
+            aspect-ratio: 16 / 9 !important;
+        }
+
+        body.smart-tv .top-bar,
+        body.smart-tv .gold-line,
+        body.smart-tv .footer-bar {
+            max-width: 100vw !important;
+            padding-left: 48px !important;
+            padding-right: 48px !important;
+        }
+
+        body.smart-tv .logo-sky .nome { font-size: 30px !important; }
+        body.smart-tv .logo-sky .icon { font-size: 34px !important; }
+        body.smart-tv .top-bar .status { font-size: 13px !important; }
+
+        body.smart-tv .ctrl-btn.skip  { width: 74px !important; height: 74px !important; }
+        body.smart-tv .ctrl-btn.skip svg { width: 30px !important; height: 30px !important; }
+        body.smart-tv .ctrl-btn.play  { width: 98px !important; height: 98px !important; }
+        body.smart-tv .ctrl-btn.play svg { width: 40px !important; height: 40px !important; }
+
+        body.smart-tv .fullscreen-btn,
+        body.smart-tv .stretch-btn { width: 58px !important; height: 58px !important; }
+        body.smart-tv .fullscreen-btn svg,
+        body.smart-tv .stretch-btn svg { width: 26px !important; height: 26px !important; }
+
+        body.smart-tv .seek-wrap { padding: 22px 16px 8px !important; }
+        body.smart-tv .time-row { font-size: 14px !important; }
+        body.smart-tv .rec-tag { font-size: 12px !important; padding: 6px 12px !important; }
+
+        /* 🔇 Mata animações infinitas e hover que fazem o botão "apertar sozinho" */
+        body.smart-tv * {
+            animation-duration: 0.001s !important;
+            animation-iteration-count: 1 !important;
+            animation-delay: 0s !important;
+        }
+        body.smart-tv #btnCanais { animation: none !important; }
+
+        body.smart-tv .ctrl-btn:hover,
+        body.smart-tv .fullscreen-btn:hover,
+        body.smart-tv .stretch-btn:hover,
+        body.smart-tv #btnCanais:hover,
+        body.smart-tv .gaveta-item:hover,
+        body.smart-tv .fs-channel-item:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        body.smart-tv .ctrl-btn:focus,
+        body.smart-tv .fullscreen-btn:focus,
+        body.smart-tv .stretch-btn:focus,
+        body.smart-tv #btnCanais:focus,
+        body.smart-tv .gaveta-item:focus,
+        body.smart-tv .fs-channel-item:focus {
+            outline: 3px solid #00ff88 !important;
+            outline-offset: 4px !important;
+            transform: none !important;
+        }
+
+        body.smart-tv #gavetaCanais { width: 480px !important; max-width: 60vw !important; }
+        body.smart-tv .gaveta-item { padding: 18px 22px !important; }
+        body.smart-tv .gaveta-item .nome { font-size: 16px !important; }
+        body.smart-tv .gaveta-header h3 { font-size: 26px !important; }
+
+        body.smart-tv #btnCanais {
+            width: 78px !important;
+            height: 78px !important;
+            font-size: 34px !important;
+            bottom: calc(40px + env(safe-area-inset-bottom)) !important;
+            right: 48px !important;
+        }
+
+        body.smart-tv .logo-splash .nome { font-size: 130px !important; }
+        body.smart-tv .logo-splash .sub { font-size: 20px !important; letter-spacing: 16px !important; }
+        body.smart-tv .logo-splash .underline { width: 30% !important; }
+
+        @media (orientation: portrait) {
+            body.smart-tv .screen { aspect-ratio: 16 / 9 !important; }
+            body.smart-tv .device { max-width: 96vw !important; width: 96vw !important; }
         }
     </style>
 </head>
@@ -969,6 +962,26 @@
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.js"></script>
 
     <script>
+        // ===== DETECÇÃO DE SMART TV / TV BOX (roda o quanto antes) =====
+        (function detectarSmartTV() {
+            try {
+                const ua = (navigator.userAgent || '').toLowerCase();
+                const uaTV = /smart-?tv|smarttv|tizen|webos|netcast|viera|bravia|hbbtv|googletv|android tv|appletv|roku|philips|hisense|pov_|opera tv|tv box|tvbox|aft[bmst]|aftt|afts|crkey|nettv|kodi|mi box|xiaomi tv|firetv|fire tv/.test(ua);
+                const telaGrande = window.innerWidth >= 1280;
+                const semToque = !('ontouchstart' in window) && navigator.maxTouchPoints === 0;
+
+                if (uaTV || (telaGrande && semToque)) {
+                    document.body.classList.add('smart-tv');
+                    document.addEventListener('dblclick', function(e) { e.preventDefault(); }, { passive: false });
+                    console.log('[SKY MOD] Modo Smart TV ativado');
+                }
+            } catch (e) {
+                console.warn('Falha ao detectar Smart TV:', e);
+            }
+        })();
+    </script>
+
+    <script>
         (function() {
             'use strict';
 
@@ -999,9 +1012,6 @@
             }
 
             function precisaProxyMixedContent(url) {
-                // Navegador em HTTPS bloqueia recursos HTTP ("mixed content").
-                // Se a página estiver em HTTP (ou for um app/WebView com
-                // cleartext liberado), a transmissão HTTP roda direto, sem proxy.
                 return location.protocol === 'https:' && ehUrlHttp(url);
             }
 
@@ -1010,17 +1020,10 @@
             }
 
             function resolverUrlAbsoluta(base, relativa) {
-                try {
-                    return new URL(relativa, base).href;
-                } catch (e) {
-                    return relativa;
-                }
+                try { return new URL(relativa, base).href; }
+                catch (e) { return relativa; }
             }
 
-            // Reconstrói a playlist .m3u8 reescrevendo cada segmento para
-            // passar pelo proxy HTTPS, e entrega tudo via Blob (mesma origem),
-            // permitindo que uma transmissão 100% HTTP funcione dentro de um
-            // ambiente HTTPS que bloquearia o conteúdo misto.
             function construirManifestoProxificado(urlOriginal) {
                 return fetch(proxificarUrl(urlOriginal)).then(function(resposta) {
                     if (!resposta.ok) throw new Error('Falha ao buscar playlist via proxy');
@@ -1082,9 +1085,9 @@
 
                 limparPlayer();
 
-                playerMount.innerHTML = `<div class="loading-player"><div class="spinner"></div><div class="texto">Carregando ${config.nome}...</div></div>`;
+                playerMount.innerHTML = '<div class="loading-player"><div class="spinner"></div><div class="texto">Carregando ' + config.nome + '...</div></div>';
 
-                setTimeout(() => {
+                setTimeout(function() {
                     try {
                         let playerElement = null;
                         switch (tipo) {
@@ -1098,13 +1101,13 @@
                             playerMount.innerHTML = '';
                             playerMount.appendChild(playerElement);
                             playerAtual = playerElement;
-                            setTimeout(() => {
-                                if (playerElement.tagName === 'VIDEO') playerElement.play().catch(()=>{});
+                            setTimeout(function() {
+                                if (playerElement.tagName === 'VIDEO') playerElement.play().catch(function(){});
                             }, 500);
                         }
                     } catch (erro) {
                         console.error('Erro ao criar player:', erro);
-                        playerMount.innerHTML = `<div class="erro-msg"><div class="icone">📡</div><div class="titulo">${config.nome} indisponível</div><div class="descricao">${erro.message}</div></div>`;
+                        playerMount.innerHTML = '<div class="erro-msg"><div class="icone">📡</div><div class="titulo">' + config.nome + ' indisponível</div><div class="descricao">' + erro.message + '</div></div>';
                     }
                 }, 100);
             }
@@ -1120,16 +1123,6 @@
                 return iframe;
             }
 
-            // ===== SISTEMA AVANÇADO DE COMPATIBILIDADE HTTP/HTTPS =====
-            // Navegadores bloqueiam silenciosamente streams http:// quando o
-            // app está aberto em https:// ("mixed content"). Este sistema:
-            // 1) detecta o cenário automaticamente;
-            // 2) tenta a versão https:// do mesmo host primeiro (caso o
-            //    servidor aceite conexão segura na mesma porta);
-            // 3) se falhar, tenta a URL http:// original (funciona quando o
-            //    próprio app também está em http:// ou é aberto como app
-            //    nativo/WebView sem a restrição do navegador);
-            // 4) só então exibe um erro explicativo, orientando o usuário.
             function construirCandidatosUrl(url) {
                 const candidatos = [url];
                 const paginaEhHttps = window.location.protocol === 'https:';
@@ -1158,14 +1151,11 @@
                     const avisoMisto = (paginaEhHttps && streamEhHttp)
                         ? '<div class="descricao">Este canal usa uma transmissão HTTP simples e o navegador bloqueou o carregamento por segurança (conteúdo misto). Abra este aplicativo em um endereço http:// (ou dentro de um app/WebView) para assistir a este canal.</div>'
                         : '<div class="descricao">Não foi possível carregar.</div>';
-                    playerMount.innerHTML = `<div class="erro-msg"><div class="icone">📡</div><div class="titulo">${config.nome} indisponível</div>${avisoMisto}</div>`;
+                    playerMount.innerHTML = '<div class="erro-msg"><div class="icone">📡</div><div class="titulo">' + config.nome + ' indisponível</div>' + avisoMisto + '</div>';
                 }
 
                 function carregarCandidato(indice) {
-                    if (indice >= candidatos.length) {
-                        mostrarErroFinal();
-                        return;
-                    }
+                    if (indice >= candidatos.length) { mostrarErroFinal(); return; }
                     const alvo = candidatos[indice];
 
                     if (video._hls) {
@@ -1191,7 +1181,7 @@
                             fragLoadingTimeOut: 20000, fragLoadingMaxRetry: 3,
                             xhrSetup: function(xhr) {
                                 if (config.headers) {
-                                    Object.keys(config.headers).forEach(key => {
+                                    Object.keys(config.headers).forEach(function(key) {
                                         try { xhr.setRequestHeader(key, config.headers[key]); } catch (e) {}
                                     });
                                 }
@@ -1256,14 +1246,11 @@
                     const avisoMisto = (paginaEhHttps && streamEhHttp)
                         ? '<div class="descricao">Este canal usa uma transmissão HTTP simples e o navegador bloqueou o carregamento por segurança (conteúdo misto). Abra este aplicativo em um endereço http:// (ou dentro de um app/WebView) para assistir a este canal.</div>'
                         : '<div class="descricao">Não foi possível carregar.</div>';
-                    playerMount.innerHTML = `<div class="erro-msg"><div class="icone">📡</div><div class="titulo">${config.nome} indisponível</div>${avisoMisto}</div>`;
+                    playerMount.innerHTML = '<div class="erro-msg"><div class="icone">📡</div><div class="titulo">' + config.nome + ' indisponível</div>' + avisoMisto + '</div>';
                 }
 
                 function carregarCandidato(indice) {
-                    if (indice >= candidatos.length) {
-                        mostrarErroFinal();
-                        return;
-                    }
+                    if (indice >= candidatos.length) { mostrarErroFinal(); return; }
                     const alvo = candidatos[indice];
 
                     if (video._mpegts) {
@@ -1272,14 +1259,8 @@
                     }
 
                     if (!window.mpegts || !window.mpegts.isSupported()) {
-                        // Sem suporte a MSE para mpegts (ex: Safari) — tenta o
-                        // próximo candidato ou, na ausência de mais opções,
-                        // faz uma última tentativa via <video src>.
-                        if (indice + 1 < candidatos.length) {
-                            carregarCandidato(indice + 1);
-                        } else {
-                            video.src = alvo;
-                        }
+                        if (indice + 1 < candidatos.length) carregarCandidato(indice + 1);
+                        else video.src = alvo;
                         return;
                     }
 
@@ -1307,11 +1288,8 @@
                         player.play().catch(function() {});
                         video._mpegts = player;
                     } catch (erro) {
-                        if (indice + 1 < candidatos.length) {
-                            carregarCandidato(indice + 1);
-                        } else {
-                            mostrarErroFinal();
-                        }
+                        if (indice + 1 < candidatos.length) carregarCandidato(indice + 1);
+                        else mostrarErroFinal();
                     }
                 }
 
@@ -1399,7 +1377,7 @@
             function despausarVideo() {
                 if (!playerAtual) return false;
                 if (playerAtual.tagName === 'VIDEO') {
-                    try { playerAtual.play().then(() => setPlayingIcon(true)).catch(()=>{}); return true; } catch(e) { return false; }
+                    try { playerAtual.play().then(function(){ setPlayingIcon(true); }).catch(function(){}); return true; } catch(e) { return false; }
                 }
                 if (playerAtual.tagName === 'IFRAME') {
                     const src = (playerAtual.src || '').toLowerCase();
@@ -1444,7 +1422,7 @@
             rewindBtn.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); canalAnterior(); });
             forwardBtn.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); proximoCanal(); });
 
-            setInterval(() => {
+            setInterval(function() {
                 if (playerAtual && playerAtual.tagName === 'VIDEO') {
                     renderProgress(playerAtual.currentTime || 0, playerAtual.duration || 0);
                     setPlayingIcon(!playerAtual.paused);
@@ -1459,12 +1437,12 @@
                 pct = Math.min(1, Math.max(0, pct));
                 if (playerAtual.duration) playerAtual.currentTime = pct * playerAtual.duration;
             }
-            seekTrack.addEventListener('mousedown', e => { dragging = true; seekFromClientX(e.clientX); });
-            window.addEventListener('mousemove', e => { if (dragging) seekFromClientX(e.clientX); });
-            window.addEventListener('mouseup', () => { dragging = false; });
-            seekTrack.addEventListener('touchstart', e => { dragging = true; seekFromClientX(e.touches[0].clientX); }, {passive:true});
-            window.addEventListener('touchmove', e => { if (dragging) seekFromClientX(e.touches[0].clientX); }, {passive:true});
-            window.addEventListener('touchend', () => { dragging = false; });
+            seekTrack.addEventListener('mousedown', function(e){ dragging = true; seekFromClientX(e.clientX); });
+            window.addEventListener('mousemove', function(e){ if (dragging) seekFromClientX(e.clientX); });
+            window.addEventListener('mouseup', function(){ dragging = false; });
+            seekTrack.addEventListener('touchstart', function(e){ dragging = true; seekFromClientX(e.touches[0].clientX); }, {passive:true});
+            window.addEventListener('touchmove', function(e){ if (dragging) seekFromClientX(e.touches[0].clientX); }, {passive:true});
+            window.addEventListener('touchend', function(){ dragging = false; });
 
             let fullscreenAtivo = false;
             let timeoutEsconderBtn = null;
@@ -1541,11 +1519,14 @@
                 e.stopPropagation();
                 toggleBotoes();
             });
-            clickCatcher.addEventListener('touchend', function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                toggleBotoes();
-            });
+            // Em TV evitamos touchend duplicado (controle remoto às vezes emite os dois)
+            if (!document.body.classList.contains('smart-tv')) {
+                clickCatcher.addEventListener('touchend', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleBotoes();
+                });
+            }
 
             stretchBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -1591,9 +1572,6 @@
             function toggleFullscreen() {
                 if (!fullscreenAtivo) {
                     aplicarFullscreenOn();
-                    // Cria um "degrau" no histórico do navegador/app.
-                    // Assim, o botão de voltar do celular consome esse degrau
-                    // primeiro, ao invés de sair do aplicativo.
                     history.pushState({ cxFullscreen: true }, '', location.href);
                     fsHistoryEntryAdded = true;
                 } else {
@@ -1621,13 +1599,8 @@
                 }
             });
 
-            // Botão de voltar do celular (Android/iOS/WebView):
-            // ao invés de fechar o app, apenas sai da tela cheia.
             window.addEventListener('popstate', function() {
-                if (ignoreNextPopstate) {
-                    ignoreNextPopstate = false;
-                    return;
-                }
+                if (ignoreNextPopstate) { ignoreNextPopstate = false; return; }
                 if (fullscreenAtivo) {
                     fsHistoryEntryAdded = false;
                     aplicarFullscreenOff();
@@ -1639,7 +1612,7 @@
             function trocarAba(abaId) {
                 if (!CANAIS[abaId]) return;
                 pausarVideo();
-                botoes.forEach(btn => {
+                botoes.forEach(function(btn) {
                     btn.classList.toggle('ativa', btn.dataset.tab === abaId);
                 });
                 criarPlayer(abaId);
@@ -1649,7 +1622,7 @@
                 agendarEsconder();
             }
 
-            botoes.forEach(btn => {
+            botoes.forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     trocarAba(this.dataset.tab);
                 });
@@ -1660,7 +1633,7 @@
                 if (window.btnCanaisGlobal) window.btnCanaisGlobal.click();
             };
 
-            setTimeout(() => {
+            setTimeout(function() {
                 trocarAba('sbt');
             }, 200);
 
@@ -1680,21 +1653,23 @@
 
         window.btnCanaisGlobal = btnCanais;
 
+        const ehSmartTV = document.body.classList.contains('smart-tv');
+
         function detectarCanais() {
             const botoes = document.querySelectorAll('#tabButtons button');
             lista.innerHTML = '';
             botoes.forEach(function(btn) {
                 const tabId = btn.dataset.tab;
-                const numero = btn.querySelector('.numero') ? btn.querySelector('.numero').textContent.trim() : '';
+                const numeroEl = btn.querySelector('.numero');
+                const numero = numeroEl ? numeroEl.textContent.trim() : '';
                 const nome = btn.textContent.replace(numero, '').trim();
                 const item = document.createElement('div');
                 item.className = 'gaveta-item';
                 item.dataset.tab = tabId;
-                item.innerHTML = `
-                    <span class="numero">${numero}</span>
-                    <span class="nome">${nome}</span>
-                    <span class="live-badge-list">● LIVE</span>
-                `;
+                item.innerHTML =
+                    '<span class="numero">' + numero + '</span>' +
+                    '<span class="nome">' + nome + '</span>' +
+                    '<span class="live-badge-list">● LIVE</span>';
                 item.addEventListener('click', function() {
                     const aba = this.dataset.tab;
                     if (typeof window.trocarAbaGlobal === 'function') window.trocarAbaGlobal(aba);
@@ -1722,8 +1697,6 @@
             overlay.classList.add('ativo');
             btnCanais.classList.add('ativo');
             sincronizarAtivo();
-            // Cria um "degrau" no histórico para o botão de voltar do
-            // celular fechar a gaveta em vez de sair do aplicativo.
             history.pushState({ cxGaveta: true }, '', location.href);
             gavetaHistoryEntryAdded = true;
         }
@@ -1744,7 +1717,22 @@
             else abrirGaveta();
         }
 
-        btnCanais.addEventListener('click', toggleGaveta);
+        // ===== Correção do "botão apertando sozinho" na TV =====
+        // No controle remoto, o D-pad dispara focus/hover constantemente.
+        // Guardamos o timestamp do último focus para ignorar clicks
+        // "fantasma" que chegam logo em seguida (menos de 250 ms).
+        let ultimoFocusTV = 0;
+        btnCanais.addEventListener('focus', function() {
+            ultimoFocusTV = Date.now();
+        });
+        btnCanais.addEventListener('click', function(e) {
+            if (ehSmartTV && (Date.now() - ultimoFocusTV) < 250) {
+                // veio do D-pad, não é uma ativação intencional
+                return;
+            }
+            toggleGaveta();
+        });
+
         btnClose.addEventListener('click', fecharGaveta);
         overlay.addEventListener('click', fecharGaveta);
 
@@ -1752,12 +1740,8 @@
             if (e.key === 'Escape' && gaveta.classList.contains('aberta')) fecharGaveta();
         });
 
-        // Botão de voltar do celular: fecha a gaveta em vez de sair do app.
         window.addEventListener('popstate', function() {
-            if (ignoreNextGavetaPopstate) {
-                ignoreNextGavetaPopstate = false;
-                return;
-            }
+            if (ignoreNextGavetaPopstate) { ignoreNextGavetaPopstate = false; return; }
             if (gaveta.classList.contains('aberta')) {
                 gavetaHistoryEntryAdded = false;
                 gaveta.classList.remove('aberta');
@@ -1793,5 +1777,4 @@
     </script>
 
 </body>
-</html>
-
+                                                                        </html>
