@@ -863,6 +863,12 @@
         <button data-tab="globo"><span class="numero">04</span>GLOBO</button>
         <button data-tab="canal"><span class="numero">05</span>CANAL</button>
         <button data-tab="rssports"><span class="numero">06</span>RS Sports 4</button>
+        <button data-tab="cazetv"><span class="numero">07</span>CazéTV</button>
+        <button data-tab="gospelcartoon"><span class="numero">08</span>Gospel Cartoon</button>
+        <button data-tab="sonyonecinema"><span class="numero">09</span>Sony One Cinema</button>
+        <button data-tab="redevida"><span class="numero">10</span>Rede Vida</button>
+        <button data-tab="recordnews"><span class="numero">11</span>Record News</button>
+        <button data-tab="sbtnews"><span class="numero">12</span>SBT News</button>
     </div>
 
     <div class="player-container">
@@ -970,10 +976,16 @@
                 cultura: { nome: 'TV Cultura', url: 'https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8', tipo: 'hls', headers: { 'Referer': 'https://www.cxtv.com.br/', 'Origin': 'https://www.cxtv.com.br' } },
                 globo: { nome: 'GLOBO', url: 'https://megaflix.mgfiles.lat/ea4564eea5c614876989b6fd90ba4700/file.m3u8', tipo: 'hls' },
                 canal: { nome: 'CANAL', url: 'https://www.youtube.com/embed/rEKifG2XUZg?autoplay=true&enablejsapi=1' },
-                rssports: { nome: 'RS Sports 4', url: 'https://video03.logicahost.com.br/rssports4/rssports4/playlist.m3u8', tipo: 'hls' }
+                rssports: { nome: 'RS Sports 4', url: 'https://video03.logicahost.com.br/rssports4/rssports4/playlist.m3u8', tipo: 'hls' },
+                cazetv: { nome: 'CazéTV', url: 'https://amg01391-amg01391c10-tcl-br-9630.playouts.now.amagi.tv/playlist.m3u8', tipo: 'hls' },
+                gospelcartoon: { nome: 'Gospel Cartoon', url: 'https://stmv1.srvif.com/gospelcartoon/gospelcartoon/playlist.m3u8', tipo: 'hls' },
+                sonyonecinema: { nome: 'Sony One Cinema', url: 'https://spt-sonyoneclassicas-1-br.samsung.wurl.tv/playlist.m3u8', tipo: 'hls' },
+                redevida: { nome: 'Rede Vida', url: 'https://d12e4o88jd8gex.cloudfront.net/out/v1/cea3de0b76ac4e82ab8ee0fd3f17ce12/index.m3u8', tipo: 'hls' },
+                recordnews: { nome: 'Record News', url: 'https://run-rnw-rn.otteravision.com/rnw/rn/rnw_rn_720p_high.m3u8', tipo: 'hls' },
+                sbtnews: { nome: 'SBT News', url: 'https://sbtnews.maissbt.com/3.m3u8', tipo: 'hls' }
             };
 
-            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports'];
+            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports', 'cazetv', 'gospelcartoon', 'sonyonecinema', 'redevida', 'recordnews', 'sbtnews'];
             let abaAtual = 'sbt';
 
             const playerMount = document.getElementById('playerMount');
@@ -1253,6 +1265,8 @@
             let fullscreenAtivo = false;
             let timeoutEsconderBtn = null;
             let interagindoComLista = false;
+            let fsHistoryEntryAdded = false;
+            let ignoreNextPopstate = false;
 
             const fsChannelList = document.getElementById('fsChannelList');
 
@@ -1349,24 +1363,42 @@
                 toggleFullscreen();
             });
 
+            function aplicarFullscreenOn() {
+                devicePlayer.classList.add('fullscreen-ativo');
+                document.body.classList.add('fullscreen-ativo');
+                fullscreenAtivo = true;
+                playerButtons.classList.remove('escondido');
+                fsChannelList.classList.remove('escondido');
+                sincronizarFsLista();
+                agendarEsconder();
+                if (devicePlayer.requestFullscreen) devicePlayer.requestFullscreen().catch(function() {});
+            }
+
+            function aplicarFullscreenOff() {
+                devicePlayer.classList.remove('fullscreen-ativo');
+                document.body.classList.remove('fullscreen-ativo');
+                fullscreenAtivo = false;
+                playerButtons.classList.remove('escondido');
+                fsChannelList.classList.remove('escondido');
+                agendarEsconder();
+                if (document.fullscreenElement) document.exitFullscreen().catch(function() {});
+            }
+
             function toggleFullscreen() {
                 if (!fullscreenAtivo) {
-                    devicePlayer.classList.add('fullscreen-ativo');
-                    document.body.classList.add('fullscreen-ativo');
-                    fullscreenAtivo = true;
-                    playerButtons.classList.remove('escondido');
-                    fsChannelList.classList.remove('escondido');
-                    sincronizarFsLista();
-                    agendarEsconder();
-                    if (devicePlayer.requestFullscreen) devicePlayer.requestFullscreen().catch(function() {});
+                    aplicarFullscreenOn();
+                    // Cria um "degrau" no histórico do navegador/app.
+                    // Assim, o botão de voltar do celular consome esse degrau
+                    // primeiro, ao invés de sair do aplicativo.
+                    history.pushState({ cxFullscreen: true }, '', location.href);
+                    fsHistoryEntryAdded = true;
                 } else {
-                    devicePlayer.classList.remove('fullscreen-ativo');
-                    document.body.classList.remove('fullscreen-ativo');
-                    fullscreenAtivo = false;
-                    playerButtons.classList.remove('escondido');
-                    fsChannelList.classList.remove('escondido');
-                    agendarEsconder();
-                    if (document.fullscreenElement) document.exitFullscreen().catch(function() {});
+                    aplicarFullscreenOff();
+                    if (fsHistoryEntryAdded && history.state && history.state.cxFullscreen) {
+                        ignoreNextPopstate = true;
+                        fsHistoryEntryAdded = false;
+                        history.back();
+                    }
                 }
             }
 
@@ -1376,12 +1408,25 @@
 
             document.addEventListener('fullscreenchange', function() {
                 if (!document.fullscreenElement && fullscreenAtivo) {
-                    devicePlayer.classList.remove('fullscreen-ativo');
-                    document.body.classList.remove('fullscreen-ativo');
-                    fullscreenAtivo = false;
-                    playerButtons.classList.remove('escondido');
-                    fsChannelList.classList.remove('escondido');
-                    agendarEsconder();
+                    aplicarFullscreenOff();
+                    if (fsHistoryEntryAdded && history.state && history.state.cxFullscreen) {
+                        ignoreNextPopstate = true;
+                        fsHistoryEntryAdded = false;
+                        history.back();
+                    }
+                }
+            });
+
+            // Botão de voltar do celular (Android/iOS/WebView):
+            // ao invés de fechar o app, apenas sai da tela cheia.
+            window.addEventListener('popstate', function() {
+                if (ignoreNextPopstate) {
+                    ignoreNextPopstate = false;
+                    return;
+                }
+                if (fullscreenAtivo) {
+                    fsHistoryEntryAdded = false;
+                    aplicarFullscreenOff();
                 }
             });
 
@@ -1465,17 +1510,29 @@
             });
         }
 
+        let gavetaHistoryEntryAdded = false;
+        let ignoreNextGavetaPopstate = false;
+
         function abrirGaveta() {
             gaveta.classList.add('aberta');
             overlay.classList.add('ativo');
             btnCanais.classList.add('ativo');
             sincronizarAtivo();
+            // Cria um "degrau" no histórico para o botão de voltar do
+            // celular fechar a gaveta em vez de sair do aplicativo.
+            history.pushState({ cxGaveta: true }, '', location.href);
+            gavetaHistoryEntryAdded = true;
         }
 
         function fecharGaveta() {
             gaveta.classList.remove('aberta');
             overlay.classList.remove('ativo');
             btnCanais.classList.remove('ativo');
+            if (gavetaHistoryEntryAdded && history.state && history.state.cxGaveta) {
+                ignoreNextGavetaPopstate = true;
+                gavetaHistoryEntryAdded = false;
+                history.back();
+            }
         }
 
         function toggleGaveta() {
@@ -1489,6 +1546,20 @@
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && gaveta.classList.contains('aberta')) fecharGaveta();
+        });
+
+        // Botão de voltar do celular: fecha a gaveta em vez de sair do app.
+        window.addEventListener('popstate', function() {
+            if (ignoreNextGavetaPopstate) {
+                ignoreNextGavetaPopstate = false;
+                return;
+            }
+            if (gaveta.classList.contains('aberta')) {
+                gavetaHistoryEntryAdded = false;
+                gaveta.classList.remove('aberta');
+                overlay.classList.remove('ativo');
+                btnCanais.classList.remove('ativo');
+            }
         });
 
         const observer = new MutationObserver(function(mutations) {
@@ -1518,4 +1589,5 @@
     </script>
 
 </body>
-    </html>
+</html>
+
