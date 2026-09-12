@@ -869,6 +869,7 @@
         <button data-tab="redevida"><span class="numero">10</span>Rede Vida</button>
         <button data-tab="recordnews"><span class="numero">11</span>Record News</button>
         <button data-tab="sbtnews"><span class="numero">12</span>SBT News</button>
+        <button data-tab="discoverykids"><span class="numero">13</span>Discovery Kids</button>
     </div>
 
     <div class="player-container">
@@ -965,6 +966,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.js"></script>
 
     <script>
         (function() {
@@ -974,7 +976,7 @@
                 sbt: { nome: 'SBT', url: 'https://www.youtube.com/embed/LLpNUqHVam8?autoplay=1&controls=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&enablejsapi=1' },
                 redetv: { nome: 'Rede TV', url: 'https://geo.dailymotion.com/player/xgrus.html?video=kYe5OYErhldJ75Azib2&autoplay=1' },
                 cultura: { nome: 'TV Cultura', url: 'https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8', tipo: 'hls', headers: { 'Referer': 'https://www.cxtv.com.br/', 'Origin': 'https://www.cxtv.com.br' } },
-                globo: { nome: 'GLOBO', url: 'https://megaflix.mgfiles.lat/ea4564eea5c614876989b6fd90ba4700/file.m3u8', tipo: 'hls' },
+                globo: { nome: 'GLOBO', url: 'http://208.115.229.66/auth/5283645.ts?token=5DoJxgR5sNE10wn_4z6Z6YS_Dp1SPW7uDpniN2subL-02ric_XK31vJkhQHOTmKsfgQWGXxQm9IoUICa9kBneC3US3HgFuF1irsUy1m-xIPR_cTt4tkKdKkRxlZSK2Pe6GhvV6I1t1jQ_v_Yj3fo426FhSY0NqArmA8jJJayGz_XsyoV5E0-A7DLMgVDsCs352FJj9E52lDC1TYtPyLhW4nWtDrDx8e6uxFIC6vIhe_g9P_ew9IvkfR6ArdcI9LczHmZllJ6PRjPYzW4-wtcZ1zv6RGozVWZ8GEhw4OivouKMVwct83N3DJJ69vsbQW09KKlhP5hX4p8-oC3ob4F7t3WRRYQ-CaUUCJvyJtp4TEg0hwf8PfKn55MNtqE10IjYafpr9JzTBxxWEL8vIk3_laGKAihdiANrEUlPMABJIwf2PZxHTPFOKa2wItXobT9eOyiqpcioBuf2U0tTZENxQcUzmIj4dckGMZaEf2HtE_9kmIs0rYK7LHVW80tBLDCOA8SMLd-w1oV3x4wSExkmu0ZDQyvmN9xJJxfxbLlhc2dOD4PslVQf14AFeHp3EYZKgb0-kAriRoVsURbDbx7WH26ooWeZKJOwgkSiLIf5nRmy-SMN4wcnOIoITS4oAxxz0-BXhgsV-Ub1WuDL9p8ZtWp0TrZCtqbbCITer3HMuQ', tipo: 'mpegts' },
                 canal: { nome: 'CANAL', url: 'https://www.youtube.com/embed/rEKifG2XUZg?autoplay=true&enablejsapi=1' },
                 rssports: { nome: 'RS Sports 4', url: 'https://video03.logicahost.com.br/rssports4/rssports4/playlist.m3u8', tipo: 'hls' },
                 cazetv: { nome: 'CazéTV', url: 'https://amg01391-amg01391c10-tcl-br-9630.playouts.now.amagi.tv/playlist.m3u8', tipo: 'hls' },
@@ -982,14 +984,58 @@
                 sonyonecinema: { nome: 'Sony One Cinema', url: 'https://spt-sonyoneclassicas-1-br.samsung.wurl.tv/playlist.m3u8', tipo: 'hls' },
                 redevida: { nome: 'Rede Vida', url: 'https://d12e4o88jd8gex.cloudfront.net/out/v1/cea3de0b76ac4e82ab8ee0fd3f17ce12/index.m3u8', tipo: 'hls' },
                 recordnews: { nome: 'Record News', url: 'https://run-rnw-rn.otteravision.com/rnw/rn/rnw_rn_720p_high.m3u8', tipo: 'hls' },
-                sbtnews: { nome: 'SBT News', url: 'https://sbtnews.maissbt.com/3.m3u8', tipo: 'hls' }
+                sbtnews: { nome: 'SBT News', url: 'https://sbtnews.maissbt.com/3.m3u8', tipo: 'hls' },
+                discoverykids: { nome: 'Discovery Kids', url: 'http://45.162.64.114/DISCOVERYKIDS/tracks-v1a1/mono.ts.m3u8', tipo: 'hls' }
             };
 
-            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports', 'cazetv', 'gospelcartoon', 'sonyonecinema', 'redevida', 'recordnews', 'sbtnews'];
+            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports', 'cazetv', 'gospelcartoon', 'sonyonecinema', 'redevida', 'recordnews', 'sbtnews', 'discoverykids'];
             let abaAtual = 'sbt';
 
             const playerMount = document.getElementById('playerMount');
             let playerAtual = null;
+
+            function ehUrlHttp(url) {
+                return typeof url === 'string' && url.toLowerCase().indexOf('http://') === 0;
+            }
+
+            function precisaProxyMixedContent(url) {
+                // Navegador em HTTPS bloqueia recursos HTTP ("mixed content").
+                // Se a página estiver em HTTP (ou for um app/WebView com
+                // cleartext liberado), a transmissão HTTP roda direto, sem proxy.
+                return location.protocol === 'https:' && ehUrlHttp(url);
+            }
+
+            function proxificarUrl(url) {
+                return 'https://corsproxy.io/?' + encodeURIComponent(url);
+            }
+
+            function resolverUrlAbsoluta(base, relativa) {
+                try {
+                    return new URL(relativa, base).href;
+                } catch (e) {
+                    return relativa;
+                }
+            }
+
+            // Reconstrói a playlist .m3u8 reescrevendo cada segmento para
+            // passar pelo proxy HTTPS, e entrega tudo via Blob (mesma origem),
+            // permitindo que uma transmissão 100% HTTP funcione dentro de um
+            // ambiente HTTPS que bloquearia o conteúdo misto.
+            function construirManifestoProxificado(urlOriginal) {
+                return fetch(proxificarUrl(urlOriginal)).then(function(resposta) {
+                    if (!resposta.ok) throw new Error('Falha ao buscar playlist via proxy');
+                    return resposta.text();
+                }).then(function(textoOriginal) {
+                    const linhasReescritas = textoOriginal.split('\n').map(function(linha) {
+                        const linhaLimpa = linha.trim();
+                        if (!linhaLimpa || linhaLimpa.indexOf('#') === 0) return linha;
+                        const absoluta = resolverUrlAbsoluta(urlOriginal, linhaLimpa);
+                        return ehUrlHttp(absoluta) ? proxificarUrl(absoluta) : absoluta;
+                    });
+                    const blob = new Blob([linhasReescritas.join('\n')], { type: 'application/vnd.apple.mpegurl' });
+                    return URL.createObjectURL(blob);
+                });
+            }
 
             function detectarTipoPlayer(url) {
                 if (!url) return 'desconhecido';
@@ -1011,6 +1057,10 @@
                     if (playerAtual._hls) {
                         try { playerAtual._hls.destroy(); } catch(e){}
                         playerAtual._hls = null;
+                    }
+                    if (playerAtual._mpegts) {
+                        try { playerAtual._mpegts.destroy(); } catch(e){}
+                        playerAtual._mpegts = null;
                     }
                     if (playerAtual.tagName === 'VIDEO') {
                         try { playerAtual.pause(); } catch(e){}
@@ -1039,6 +1089,7 @@
                         let playerElement = null;
                         switch (tipo) {
                             case 'hls': playerElement = criarPlayerHLS(url, config); break;
+                            case 'mpegts': playerElement = criarPlayerMpegTs(url, config); break;
                             case 'video': playerElement = criarPlayerVideo(url, config); break;
                             default: playerElement = criarIframe(url, config);
                         }
@@ -1069,6 +1120,26 @@
                 return iframe;
             }
 
+            // ===== SISTEMA AVANÇADO DE COMPATIBILIDADE HTTP/HTTPS =====
+            // Navegadores bloqueiam silenciosamente streams http:// quando o
+            // app está aberto em https:// ("mixed content"). Este sistema:
+            // 1) detecta o cenário automaticamente;
+            // 2) tenta a versão https:// do mesmo host primeiro (caso o
+            //    servidor aceite conexão segura na mesma porta);
+            // 3) se falhar, tenta a URL http:// original (funciona quando o
+            //    próprio app também está em http:// ou é aberto como app
+            //    nativo/WebView sem a restrição do navegador);
+            // 4) só então exibe um erro explicativo, orientando o usuário.
+            function construirCandidatosUrl(url) {
+                const candidatos = [url];
+                const paginaEhHttps = window.location.protocol === 'https:';
+                const streamEhHttp = /^http:\/\//i.test(url);
+                if (paginaEhHttps && streamEhHttp) {
+                    candidatos.unshift(url.replace(/^http:\/\//i, 'https://'));
+                }
+                return candidatos;
+            }
+
             function criarPlayerHLS(url, config) {
                 const video = document.createElement('video');
                 video.controls = false;
@@ -1077,41 +1148,174 @@
                 video.playsInline = true;
                 video.setAttribute('playsinline', '');
                 video.setAttribute('webkit-playsinline', '');
+
+                const candidatos = construirCandidatosUrl(url);
                 const suporteNativoHLS = video.canPlayType('application/vnd.apple.mpegurl') || video.canPlayType('application/x-mpegURL');
-                if (suporteNativoHLS && !window.Hls) { video.src = url; }
-                else if (window.Hls && window.Hls.isSupported()) {
-                    const hls = new Hls({
-                        enableWorker: true, lowLatencyMode: true, backBufferLength: 90,
-                        maxBufferLength: 30, maxMaxBufferLength: 60,
-                        manifestLoadingTimeOut: 10000, manifestLoadingMaxRetry: 3,
-                        levelLoadingTimeOut: 10000, levelLoadingMaxRetry: 3,
-                        fragLoadingTimeOut: 20000, fragLoadingMaxRetry: 4,
-                        xhrSetup: function(xhr, u) {
-                            if (config.headers) {
-                                Object.keys(config.headers).forEach(key => {
-                                    try { xhr.setRequestHeader(key, config.headers[key]); } catch (e) {}
-                                });
+
+                function mostrarErroFinal() {
+                    const paginaEhHttps = window.location.protocol === 'https:';
+                    const streamEhHttp = /^http:\/\//i.test(url);
+                    const avisoMisto = (paginaEhHttps && streamEhHttp)
+                        ? '<div class="descricao">Este canal usa uma transmissão HTTP simples e o navegador bloqueou o carregamento por segurança (conteúdo misto). Abra este aplicativo em um endereço http:// (ou dentro de um app/WebView) para assistir a este canal.</div>'
+                        : '<div class="descricao">Não foi possível carregar.</div>';
+                    playerMount.innerHTML = `<div class="erro-msg"><div class="icone">📡</div><div class="titulo">${config.nome} indisponível</div>${avisoMisto}</div>`;
+                }
+
+                function carregarCandidato(indice) {
+                    if (indice >= candidatos.length) {
+                        mostrarErroFinal();
+                        return;
+                    }
+                    const alvo = candidatos[indice];
+
+                    if (video._hls) {
+                        try { video._hls.destroy(); } catch (e) {}
+                        video._hls = null;
+                    }
+
+                    if (suporteNativoHLS && !window.Hls) {
+                        video.src = alvo;
+                        video.addEventListener('error', function aoFalhar() {
+                            video.removeEventListener('error', aoFalhar);
+                            carregarCandidato(indice + 1);
+                        }, { once: true });
+                        return;
+                    }
+
+                    if (window.Hls && window.Hls.isSupported()) {
+                        const hls = new Hls({
+                            enableWorker: true, lowLatencyMode: true, backBufferLength: 90,
+                            maxBufferLength: 30, maxMaxBufferLength: 60,
+                            manifestLoadingTimeOut: 10000, manifestLoadingMaxRetry: 2,
+                            levelLoadingTimeOut: 10000, levelLoadingMaxRetry: 2,
+                            fragLoadingTimeOut: 20000, fragLoadingMaxRetry: 3,
+                            xhrSetup: function(xhr) {
+                                if (config.headers) {
+                                    Object.keys(config.headers).forEach(key => {
+                                        try { xhr.setRequestHeader(key, config.headers[key]); } catch (e) {}
+                                    });
+                                }
+                                xhr.withCredentials = false;
                             }
-                            xhr.withCredentials = false;
-                        }
-                    });
-                    hls.loadSource(url);
-                    hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() { video.play().catch(function(e) {}); });
-                    hls.on(Hls.Events.ERROR, function(event, data) {
-                        if (data.fatal) {
+                        });
+                        let jaTentouProximo = false;
+                        hls.loadSource(alvo);
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, function() { video.play().catch(function() {}); });
+                        hls.on(Hls.Events.ERROR, function(event, data) {
+                            if (!data.fatal) return;
                             switch (data.type) {
-                                case Hls.ErrorTypes.NETWORK_ERROR: hls.startLoad(); break;
-                                case Hls.ErrorTypes.MEDIA_ERROR: hls.recoverMediaError(); break;
+                                case Hls.ErrorTypes.NETWORK_ERROR:
+                                    if (!jaTentouProximo && indice + 1 < candidatos.length) {
+                                        jaTentouProximo = true;
+                                        hls.destroy();
+                                        carregarCandidato(indice + 1);
+                                    } else {
+                                        hls.startLoad();
+                                    }
+                                    break;
+                                case Hls.ErrorTypes.MEDIA_ERROR:
+                                    hls.recoverMediaError();
+                                    break;
                                 default:
-                                    hls.destroy();
-                                    playerMount.innerHTML = `<div class="erro-msg"><div class="icone">📡</div><div class="titulo">${config.nome} indisponível</div><div class="descricao">Não foi possível carregar.</div></div>`;
+                                    if (!jaTentouProximo && indice + 1 < candidatos.length) {
+                                        jaTentouProximo = true;
+                                        hls.destroy();
+                                        carregarCandidato(indice + 1);
+                                    } else {
+                                        hls.destroy();
+                                        mostrarErroFinal();
+                                    }
                                     break;
                             }
+                        });
+                        video._hls = hls;
+                    } else {
+                        video.src = alvo;
+                    }
+                }
+
+                carregarCandidato(0);
+                return video;
+            }
+
+            function criarPlayerMpegTs(url, config) {
+                const video = document.createElement('video');
+                video.controls = false;
+                video.autoplay = true;
+                video.muted = false;
+                video.playsInline = true;
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+
+                const candidatos = construirCandidatosUrl(url);
+
+                function mostrarErroFinal() {
+                    const paginaEhHttps = window.location.protocol === 'https:';
+                    const streamEhHttp = /^http:\/\//i.test(url);
+                    const avisoMisto = (paginaEhHttps && streamEhHttp)
+                        ? '<div class="descricao">Este canal usa uma transmissão HTTP simples e o navegador bloqueou o carregamento por segurança (conteúdo misto). Abra este aplicativo em um endereço http:// (ou dentro de um app/WebView) para assistir a este canal.</div>'
+                        : '<div class="descricao">Não foi possível carregar.</div>';
+                    playerMount.innerHTML = `<div class="erro-msg"><div class="icone">📡</div><div class="titulo">${config.nome} indisponível</div>${avisoMisto}</div>`;
+                }
+
+                function carregarCandidato(indice) {
+                    if (indice >= candidatos.length) {
+                        mostrarErroFinal();
+                        return;
+                    }
+                    const alvo = candidatos[indice];
+
+                    if (video._mpegts) {
+                        try { video._mpegts.destroy(); } catch (e) {}
+                        video._mpegts = null;
+                    }
+
+                    if (!window.mpegts || !window.mpegts.isSupported()) {
+                        // Sem suporte a MSE para mpegts (ex: Safari) — tenta o
+                        // próximo candidato ou, na ausência de mais opções,
+                        // faz uma última tentativa via <video src>.
+                        if (indice + 1 < candidatos.length) {
+                            carregarCandidato(indice + 1);
+                        } else {
+                            video.src = alvo;
                         }
-                    });
-                    video._hls = hls;
-                } else { video.src = url; }
+                        return;
+                    }
+
+                    try {
+                        const player = mpegts.createPlayer(
+                            { type: 'mpegts', isLive: true, url: alvo },
+                            { enableWorker: true, liveBufferLatencyChasing: true, lazyLoad: false }
+                        );
+                        player.attachMediaElement(video);
+                        player.load();
+
+                        let jaTentouProximo = false;
+                        player.on(mpegts.Events.ERROR, function() {
+                            if (jaTentouProximo) return;
+                            jaTentouProximo = true;
+                            if (indice + 1 < candidatos.length) {
+                                try { player.destroy(); } catch (e) {}
+                                carregarCandidato(indice + 1);
+                            } else {
+                                try { player.destroy(); } catch (e) {}
+                                mostrarErroFinal();
+                            }
+                        });
+
+                        player.play().catch(function() {});
+                        video._mpegts = player;
+                    } catch (erro) {
+                        if (indice + 1 < candidatos.length) {
+                            carregarCandidato(indice + 1);
+                        } else {
+                            mostrarErroFinal();
+                        }
+                    }
+                }
+
+                carregarCandidato(0);
                 return video;
             }
 
