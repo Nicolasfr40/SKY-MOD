@@ -151,6 +151,7 @@
             --green-glow:rgba(0,255,106,.55);
             --red-glow:rgba(255,26,26,.45);
             --text-dim:#9b9b9b;
+            --focus-color: #00ff88;
         }
 
         .device{
@@ -711,7 +712,7 @@
         }
 
         /* ============================================================
-           🖥️ MODO SMART TV / TV BOX — interface em paisagem, preenche tudo
+           🖥️ MODO SMART TV / TV BOX
            ============================================================ */
         body.smart-tv {
             overflow-x: hidden !important;
@@ -780,15 +781,26 @@
             box-shadow: none !important;
         }
 
+        /* Foco visível (controle remoto) */
+        body.smart-tv .navegavel:focus,
         body.smart-tv .ctrl-btn:focus,
         body.smart-tv .fullscreen-btn:focus,
         body.smart-tv .stretch-btn:focus,
         body.smart-tv #btnCanais:focus,
         body.smart-tv .gaveta-item:focus,
-        body.smart-tv .fs-channel-item:focus {
-            outline: 3px solid #00ff88 !important;
+        body.smart-tv .fs-channel-item:focus,
+        body.smart-tv .gaveta-close:focus {
+            outline: 3px solid var(--focus-color) !important;
             outline-offset: 4px !important;
             transform: none !important;
+            box-shadow: 0 0 22px rgba(0,255,136,.7) !important;
+        }
+
+        /* Foco na tela cheia - itens da lista lateral */
+        body.smart-tv .fs-channel-item.foco-controle {
+            background: rgba(0,255,136,.18) !important;
+            border-color: #00ff88 !important;
+            box-shadow: 0 0 22px rgba(0,255,136,.5) !important;
         }
 
         body.smart-tv #gavetaCanais { width: 480px !important; max-width: 60vw !important; }
@@ -811,6 +823,13 @@
         @media (orientation: portrait) {
             body.smart-tv .screen { aspect-ratio: 16 / 9 !important; }
             body.smart-tv .device { max-width: 96vw !important; width: 96vw !important; }
+        }
+
+        /* Indicador de foco no device - "anel" para dar destaque */
+        body.smart-tv .foco-controle {
+            outline: 3px solid var(--focus-color) !important;
+            outline-offset: 4px !important;
+            box-shadow: 0 0 26px rgba(0,255,136,.75) !important;
         }
     </style>
 </head>
@@ -881,7 +900,7 @@
                     <div class="fs-channel-list" id="fsChannelList"></div>
 
                     <div class="player-buttons" id="playerButtons">
-                        <button class="stretch-btn" id="stretchBtn" aria-label="Esticar / preencher tela" title="Preencher tela">
+                        <button class="stretch-btn navegavel" id="stretchBtn" aria-label="Esticar / preencher tela" title="Preencher tela">
                             <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M15 3h6v6"/>
                                 <path d="M9 21H3v-6"/>
@@ -890,7 +909,7 @@
                             </svg>
                         </button>
 
-                        <button class="fullscreen-btn" id="fullscreenBtn" aria-label="Tela cheia" title="Tela cheia">
+                        <button class="fullscreen-btn navegavel" id="fullscreenBtn" aria-label="Tela cheia" title="Tela cheia">
                             <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
                                 <path d="M16 3h3a2 2 0 0 1 2 2v3"/>
@@ -903,9 +922,9 @@
             </section>
 
             <div class="seek-wrap">
-                <div class="seek-track" id="seekTrack">
+                <div class="seek-track navegavel" id="seekTrack" tabindex="0">
                     <div class="seek-fill" id="seekFill"></div>
-                    <div class="seek-thumb" id="seekThumb" tabindex="0" role="slider"
+                    <div class="seek-thumb" id="seekThumb" tabindex="-1" role="slider"
                          aria-label="Progresso do vídeo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
                 </div>
                 <div class="time-row">
@@ -915,16 +934,16 @@
             </div>
 
             <div class="controls">
-                <button class="ctrl-btn skip" id="rewindBtn" aria-label="Canal anterior">
+                <button class="ctrl-btn skip navegavel" id="rewindBtn" aria-label="Canal anterior">
                     <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
                 </button>
 
-                <button class="ctrl-btn play" id="playBtn" aria-label="Reproduzir / Pausar">
+                <button class="ctrl-btn play navegavel" id="playBtn" aria-label="Reproduzir / Pausar">
                     <svg id="iconPlay" viewBox="0 0 24 24" style="display:none;"><path d="M8 5v14l11-7z"/></svg>
                     <svg id="iconPause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
                 </button>
 
-                <button class="ctrl-btn skip" id="forwardBtn" aria-label="Próximo canal">
+                <button class="ctrl-btn skip navegavel" id="forwardBtn" aria-label="Próximo canal">
                     <svg viewBox="0 0 24 24"><path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"/></svg>
                 </button>
             </div>
@@ -938,7 +957,7 @@
         <div class="brand">✦ luxe</div>
     </div>
 
-    <button id="btnCanais" title="Ver todos os canais" aria-label="Abrir lista de canais">
+    <button id="btnCanais" class="navegavel" title="Ver todos os canais" aria-label="Abrir lista de canais">
         <span class="icone">☰</span>
     </button>
 
@@ -950,7 +969,7 @@
                 <h3>SKY <span>MOD</span></h3>
                 <div class="status"><span class="dot"></span> CANAIS AO VIVO</div>
             </div>
-            <button class="gaveta-close" title="Fechar" aria-label="Fechar">✕</button>
+            <button class="gaveta-close navegavel" title="Fechar" aria-label="Fechar">✕</button>
         </div>
         <div class="gaveta-lista" id="gavetaLista"></div>
         <div class="gaveta-footer">
@@ -962,7 +981,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.js"></script>
 
     <script>
-        // ===== DETECÇÃO DE SMART TV / TV BOX (roda o quanto antes) =====
+        // ===== DETECÇÃO DE SMART TV / TV BOX =====
         (function detectarSmartTV() {
             try {
                 const ua = (navigator.userAgent || '').toLowerCase();
@@ -1007,17 +1026,8 @@
             const playerMount = document.getElementById('playerMount');
             let playerAtual = null;
 
-            function ehUrlHttp(url) {
-                return typeof url === 'string' && url.toLowerCase().indexOf('http://') === 0;
-            }
-
-            function precisaProxyMixedContent(url) {
-                return location.protocol === 'https:' && ehUrlHttp(url);
-            }
-
-            function proxificarUrl(url) {
-                return 'https://corsproxy.io/?' + encodeURIComponent(url);
-            }
+            function ehUrlHttp(url) { return typeof url === 'string' && url.toLowerCase().indexOf('http://') === 0; }
+            function proxificarUrl(url) { return 'https://corsproxy.io/?' + encodeURIComponent(url); }
 
             function resolverUrlAbsoluta(base, relativa) {
                 try { return new URL(relativa, base).href; }
@@ -1057,17 +1067,9 @@
             function limparPlayer() {
                 playerMount.innerHTML = '';
                 if (playerAtual) {
-                    if (playerAtual._hls) {
-                        try { playerAtual._hls.destroy(); } catch(e){}
-                        playerAtual._hls = null;
-                    }
-                    if (playerAtual._mpegts) {
-                        try { playerAtual._mpegts.destroy(); } catch(e){}
-                        playerAtual._mpegts = null;
-                    }
-                    if (playerAtual.tagName === 'VIDEO') {
-                        try { playerAtual.pause(); } catch(e){}
-                    }
+                    if (playerAtual._hls) { try { playerAtual._hls.destroy(); } catch(e){} playerAtual._hls = null; }
+                    if (playerAtual._mpegts) { try { playerAtual._mpegts.destroy(); } catch(e){} playerAtual._mpegts = null; }
+                    if (playerAtual.tagName === 'VIDEO') { try { playerAtual.pause(); } catch(e){} }
                     if (playerAtual.tagName === 'IFRAME') {
                         try { playerAtual.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e){}
                     }
@@ -1084,7 +1086,6 @@
                 const tipo = config.tipo || detectarTipoPlayer(url);
 
                 limparPlayer();
-
                 playerMount.innerHTML = '<div class="loading-player"><div class="spinner"></div><div class="texto">Carregando ' + config.nome + '...</div></div>';
 
                 setTimeout(function() {
@@ -1096,7 +1097,6 @@
                             case 'video': playerElement = criarPlayerVideo(url, config); break;
                             default: playerElement = criarIframe(url, config);
                         }
-
                         if (playerElement) {
                             playerMount.innerHTML = '';
                             playerMount.appendChild(playerElement);
@@ -1112,7 +1112,7 @@
                 }, 100);
             }
 
-            function criarIframe(url, config) {
+            function criarIframe(url) {
                 const iframe = document.createElement('iframe');
                 iframe.src = url;
                 iframe.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write';
@@ -1127,9 +1127,7 @@
                 const candidatos = [url];
                 const paginaEhHttps = window.location.protocol === 'https:';
                 const streamEhHttp = /^http:\/\//i.test(url);
-                if (paginaEhHttps && streamEhHttp) {
-                    candidatos.unshift(url.replace(/^http:\/\//i, 'https://'));
-                }
+                if (paginaEhHttps && streamEhHttp) candidatos.unshift(url.replace(/^http:\/\//i, 'https://'));
                 return candidatos;
             }
 
@@ -1158,10 +1156,7 @@
                     if (indice >= candidatos.length) { mostrarErroFinal(); return; }
                     const alvo = candidatos[indice];
 
-                    if (video._hls) {
-                        try { video._hls.destroy(); } catch (e) {}
-                        video._hls = null;
-                    }
+                    if (video._hls) { try { video._hls.destroy(); } catch (e) {} video._hls = null; }
 
                     if (suporteNativoHLS && !window.Hls) {
                         video.src = alvo;
@@ -1197,25 +1192,16 @@
                             switch (data.type) {
                                 case Hls.ErrorTypes.NETWORK_ERROR:
                                     if (!jaTentouProximo && indice + 1 < candidatos.length) {
-                                        jaTentouProximo = true;
-                                        hls.destroy();
-                                        carregarCandidato(indice + 1);
-                                    } else {
-                                        hls.startLoad();
-                                    }
+                                        jaTentouProximo = true; hls.destroy(); carregarCandidato(indice + 1);
+                                    } else hls.startLoad();
                                     break;
                                 case Hls.ErrorTypes.MEDIA_ERROR:
                                     hls.recoverMediaError();
                                     break;
                                 default:
                                     if (!jaTentouProximo && indice + 1 < candidatos.length) {
-                                        jaTentouProximo = true;
-                                        hls.destroy();
-                                        carregarCandidato(indice + 1);
-                                    } else {
-                                        hls.destroy();
-                                        mostrarErroFinal();
-                                    }
+                                        jaTentouProximo = true; hls.destroy(); carregarCandidato(indice + 1);
+                                    } else { hls.destroy(); mostrarErroFinal(); }
                                     break;
                             }
                         });
@@ -1253,10 +1239,7 @@
                     if (indice >= candidatos.length) { mostrarErroFinal(); return; }
                     const alvo = candidatos[indice];
 
-                    if (video._mpegts) {
-                        try { video._mpegts.destroy(); } catch (e) {}
-                        video._mpegts = null;
-                    }
+                    if (video._mpegts) { try { video._mpegts.destroy(); } catch (e) {} video._mpegts = null; }
 
                     if (!window.mpegts || !window.mpegts.isSupported()) {
                         if (indice + 1 < candidatos.length) carregarCandidato(indice + 1);
@@ -1297,7 +1280,7 @@
                 return video;
             }
 
-            function criarPlayerVideo(url, config) {
+            function criarPlayerVideo(url) {
                 const video = document.createElement('video');
                 video.controls = false;
                 video.autoplay = true;
@@ -1482,6 +1465,7 @@
                     const item = document.createElement('div');
                     item.className = 'fs-channel-item' + (id === abaAtual ? ' ativo' : '');
                     item.dataset.tab = id;
+                    item.setAttribute('tabindex', '-1');
                     item.innerHTML =
                         '<span class="numero">' + String(index + 1).padStart(2, '0') + '</span>' +
                         '<span class="nome">' + canal.nome + '</span>' +
@@ -1489,6 +1473,11 @@
                     item.addEventListener('click', function(e) {
                         e.stopPropagation();
                         trocarAba(this.dataset.tab);
+                        // fecha a lista e volta pro vídeo (igual celular)
+                        if (fullscreenAtivo) {
+                            playerButtons.classList.add('escondido');
+                            fsChannelList.classList.add('escondido');
+                        }
                     });
                     fsChannelList.appendChild(item);
                 });
@@ -1519,7 +1508,6 @@
                 e.stopPropagation();
                 toggleBotoes();
             });
-            // Em TV evitamos touchend duplicado (controle remoto às vezes emite os dois)
             if (!document.body.classList.contains('smart-tv')) {
                 clickCatcher.addEventListener('touchend', function(e) {
                     e.stopPropagation();
@@ -1623,19 +1611,23 @@
             }
 
             botoes.forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    trocarAba(this.dataset.tab);
-                });
+                btn.addEventListener('click', function() { trocarAba(this.dataset.tab); });
             });
 
             window.trocarAbaGlobal = trocarAba;
-            window.abrirGavetaGlobal = function() {
-                if (window.btnCanaisGlobal) window.btnCanaisGlobal.click();
+            window.toggleFullscreenGlobal = toggleFullscreen;
+            window.toggleBotoesGlobal = toggleBotoes;
+            window.isFullscreenAtivo = function() { return fullscreenAtivo; };
+            window.getFsChannelList = function() { return fsChannelList; };
+            window.getPlayerButtons = function() { return playerButtons; };
+            window.esconderControles = function() {
+                playerButtons.classList.add('escondido');
+                fsChannelList.classList.add('escondido');
+                if (timeoutEsconderBtn) clearTimeout(timeoutEsconderBtn);
             };
+            window.agendarEsconderGlobal = agendarEsconder;
 
-            setTimeout(function() {
-                trocarAba('sbt');
-            }, 200);
+            setTimeout(function() { trocarAba('sbt'); }, 200);
 
         })();
     </script>
@@ -1666,6 +1658,7 @@
                 const item = document.createElement('div');
                 item.className = 'gaveta-item';
                 item.dataset.tab = tabId;
+                item.setAttribute('tabindex', '-1');
                 item.innerHTML =
                     '<span class="numero">' + numero + '</span>' +
                     '<span class="nome">' + nome + '</span>' +
@@ -1699,6 +1692,11 @@
             sincronizarAtivo();
             history.pushState({ cxGaveta: true }, '', location.href);
             gavetaHistoryEntryAdded = true;
+            // Foco no primeiro item (ou no item ativo) para navegação por controle
+            setTimeout(function() {
+                const ativo = lista.querySelector('.gaveta-item.ativo') || lista.querySelector('.gaveta-item');
+                if (ativo) ativo.focus({ preventScroll: false });
+            }, 150);
         }
 
         function fecharGaveta() {
@@ -1718,18 +1716,10 @@
         }
 
         // ===== Correção do "botão apertando sozinho" na TV =====
-        // No controle remoto, o D-pad dispara focus/hover constantemente.
-        // Guardamos o timestamp do último focus para ignorar clicks
-        // "fantasma" que chegam logo em seguida (menos de 250 ms).
         let ultimoFocusTV = 0;
-        btnCanais.addEventListener('focus', function() {
-            ultimoFocusTV = Date.now();
-        });
+        btnCanais.addEventListener('focus', function() { ultimoFocusTV = Date.now(); });
         btnCanais.addEventListener('click', function(e) {
-            if (ehSmartTV && (Date.now() - ultimoFocusTV) < 250) {
-                // veio do D-pad, não é uma ativação intencional
-                return;
-            }
+            if (ehSmartTV && (Date.now() - ultimoFocusTV) < 250) return;
             toggleGaveta();
         });
 
@@ -1773,8 +1763,357 @@
         } else {
             setTimeout(init, 500);
         }
+
+        // Expor funções para o controlador de D-pad
+        window.abrirGavetaGlobal = abrirGaveta;
+        window.fecharGavetaGlobal = fecharGaveta;
+        window.gavetaEstaAberta = function() { return gaveta.classList.contains('aberta'); };
+        window.getGavetaLista = function() { return lista; };
+    })();
+    </script>
+
+    <!-- ============================================================
+         🎮 CONTROLADOR DE D-PAD (SMART TV / TV BOX)
+         ============================================================ -->
+    <script>
+    (function() {
+        'use strict';
+
+        // Só ativa em Smart TV / TV Box
+        if (!document.body.classList.contains('smart-tv')) {
+            console.log('[SKY MOD] Modo toque ativo (não é TV)');
+            return;
+        }
+
+        console.log('[SKY MOD] Controlador de D-pad ativado');
+
+        // Estado
+        let indiceFoco = -1;
+        let grupoAtual = 'principal'; // 'principal' | 'gaveta' | 'fs-lista'
+        let timeoutAutoFoco = null;
+
+        // Elementos focáveis agrupados
+        function elementosPrincipais() {
+            // Ordem visual: [stretch] [fullscreen] / seek / [rewind] [play] [forward] / [btnCanais]
+            return Array.from(document.querySelectorAll(
+                'body.smart-tv .navegavel:not(.escondido), ' +
+                'body.smart-tv #devicePlayer .stretch-btn:not(.escondido), ' +
+                'body.smart-tv #devicePlayer .fullscreen-btn:not(.escondido), ' +
+                'body.smart-tv #seekTrack, ' +
+                'body.smart-tv #rewindBtn, ' +
+                'body.smart-tv #playBtn, ' +
+                'body.smart-tv #forwardBtn, ' +
+                'body.smart-tv #btnCanais'
+            )).filter(function(el, i, arr) {
+                // Remove duplicados e elementos invisíveis
+                if (arr.indexOf(el) !== i) return false;
+                const rect = el.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) return false;
+                const style = window.getComputedStyle(el);
+                if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) return false;
+                return true;
+            });
+        }
+
+        function itensGaveta() {
+            return Array.from(document.querySelectorAll('#gavetaCanais .gaveta-item, #gavetaCanais .gaveta-close'))
+                .filter(function(el) {
+                    const rect = el.getBoundingClientRect();
+                    return rect.width > 0 && rect.height > 0;
+                });
+        }
+
+        function itensFsLista() {
+            return Array.from(document.querySelectorAll('#fsChannelList .fs-channel-item'))
+                .filter(function(el) {
+                    const rect = el.getBoundingClientRect();
+                    return rect.width > 0 && rect.height > 0;
+                });
+        }
+
+        function limparFoco() {
+            document.querySelectorAll('.foco-controle').forEach(function(el) {
+                el.classList.remove('foco-controle');
+            });
+        }
+
+        function aplicarFoco(el) {
+            if (!el) return;
+            limparFoco();
+            el.classList.add('foco-controle');
+            try { el.focus({ preventScroll: false }); } catch(e) {}
+            // Scroll suave para garantir visibilidade
+            if (el.scrollIntoView) {
+                try { el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch(e) {}
+            }
+        }
+
+        // ===== NAVEGAÇÃO PRINCIPAL =====
+        function focarProximoPrincipal() {
+            const els = elementosPrincipais();
+            if (!els.length) return;
+            indiceFoco = (indiceFoco + 1) % els.length;
+            aplicarFoco(els[indiceFoco]);
+        }
+
+        function focarAnteriorPrincipal() {
+            const els = elementosPrincipais();
+            if (!els.length) return;
+            indiceFoco = (indiceFoco - 1 + els.length) % els.length;
+            aplicarFoco(els[indiceFoco]);
+        }
+
+        // ===== FOCO INICIAL =====
+        function focarInicial() {
+            grupoAtual = 'principal';
+            const els = elementosPrincipais();
+            if (!els.length) return;
+            // Prioridade: playBtn > btnCanais > primeiro
+            const play = els.indexOf(document.getElementById('playBtn'));
+            const canais = els.indexOf(document.getElementById('btnCanais'));
+            if (play >= 0) indiceFoco = play;
+            else if (canais >= 0) indiceFoco = canais;
+            else indiceFoco = 0;
+            aplicarFoco(els[indiceFoco]);
+        }
+
+        // ===== ENTER / OK =====
+        function acionarElementoFocado() {
+            const el = document.activeElement;
+            if (!el) return;
+
+            // Se estiver na gaveta
+            if (grupoAtual === 'gaveta') {
+                if (el.classList.contains('gaveta-close')) {
+                    window.fecharGavetaGlobal();
+                } else if (el.classList.contains('gaveta-item')) {
+                    const tab = el.dataset.tab;
+                    if (typeof window.trocarAbaGlobal === 'function') window.trocarAbaGlobal(tab);
+                    window.fecharGavetaGlobal();
+                }
+                return;
+            }
+
+            // Se estiver na lista lateral de tela cheia
+            if (grupoAtual === 'fs-lista') {
+                if (el.classList.contains('fs-channel-item')) {
+                    const tab = el.dataset.tab;
+                    if (typeof window.trocarAbaGlobal === 'function') window.trocarAbaGlobal(tab);
+                    // Fecha a lista (volta pro vídeo)
+                    if (window.esconderControles) window.esconderControles();
+                    grupoAtual = 'principal';
+                }
+                return;
+            }
+
+            // Modo principal: dispara click
+            if (el.id === 'seekTrack') {
+                // Seek: alterna play/pause como atalho simples (ou ignora)
+                return;
+            }
+
+            // Dispara click programático
+            el.click();
+        }
+
+        // ===== TECLADO =====
+        document.addEventListener('keydown', function(e) {
+            if (!document.body.classList.contains('smart-tv')) return;
+
+            const key = e.key;
+            const code = e.keyCode || e.which;
+
+            // Teclas de navegação
+            const ehSeta = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(key) >= 0;
+            const ehEnter = key === 'Enter' || code === 13;
+            const ehBack = key === 'Escape' || key === 'Backspace' || code === 461 || code === 10009 || code === 8;
+            const ehVoltar = key === 'GoBack' || key === 'BrowserBack' || code === 461;
+
+            // Back / Voltar
+            if (ehBack || ehVoltar) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (window.gavetaEstaAberta && window.gavetaEstaAberta()) {
+                    window.fecharGavetaGlobal();
+                    setTimeout(focarInicial, 100);
+                    return;
+                }
+                if (window.isFullscreenAtivo && window.isFullscreenAtivo()) {
+                    // Se lista lateral de tela cheia estiver visível, fecha ela primeiro
+                    const fsList = window.getFsChannelList ? window.getFsChannelList() : null;
+                    const pb = window.getPlayerButtons ? window.getPlayerButtons() : null;
+                    if (fsList && !fsList.classList.contains('escondido')) {
+                        window.esconderControles();
+                        grupoAtual = 'principal';
+                        return;
+                    }
+                    // Senão sai da tela cheia
+                    if (typeof window.toggleFullscreenGlobal === 'function') {
+                        window.toggleFullscreenGlobal();
+                        setTimeout(focarInicial, 300);
+                    }
+                }
+                return;
+            }
+
+            // Enter / OK
+            if (ehEnter) {
+                // Previne que o navegador faça "click" automático no elemento focado
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Se está em tela cheia com controles escondidos, OK mostra eles
+                if (window.isFullscreenAtivo && window.isFullscreenAtivo()) {
+                    const fsList = window.getFsChannelList ? window.getFsChannelList() : null;
+                    const pb = window.getPlayerButtons ? window.getPlayerButtons() : null;
+                    const controlesEscondidos = pb && pb.classList.contains('escondido');
+                    if (controlesEscondidos) {
+                        if (window.toggleBotoesGlobal) window.toggleBotoesGlobal();
+                        // Foco vai pra lista lateral
+                        setTimeout(function() {
+                            const itens = itensFsLista();
+                            if (itens.length) {
+                                grupoAtual = 'fs-lista';
+                                const ativo = document.querySelector('#fsChannelList .fs-channel-item.ativo');
+                                aplicarFoco(ativo || itens[0]);
+                            }
+                        }, 200);
+                        return;
+                    }
+                }
+                acionarElementoFocado();
+                return;
+            }
+
+            if (!ehSeta) return;
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Se está na gaveta
+            if (window.gavetaEstaAberta && window.gavetaEstaAberta()) {
+                grupoAtual = 'gaveta';
+                const itens = itensGaveta();
+                if (!itens.length) return;
+                const atual = document.activeElement;
+                let idx = itens.indexOf(atual);
+                if (idx < 0) idx = 0;
+
+                if (key === 'ArrowDown') idx = (idx + 1) % itens.length;
+                else if (key === 'ArrowUp') idx = (idx - 1 + itens.length) % itens.length;
+
+                aplicarFoco(itens[idx]);
+                return;
+            }
+
+            // Se está em tela cheia com controles visíveis
+            if (window.isFullscreenAtivo && window.isFullscreenAtivo()) {
+                const fsList = window.getFsChannelList ? window.getFsChannelList() : null;
+                const pb = window.getPlayerButtons ? window.getPlayerButtons() : null;
+                const controlesEscondidos = pb && pb.classList.contains('escondido');
+
+                if (controlesEscondidos) {
+                    // Nada visível — não navega
+                    return;
+                }
+
+                const itensLista = itensFsLista();
+                const itensBotoes = [document.getElementById('stretchBtn'), document.getElementById('fullscreenBtn')];
+
+                // Esquerda → lista lateral
+                if (key === 'ArrowLeft') {
+                    if (grupoAtual !== 'fs-lista' && itensLista.length) {
+                        grupoAtual = 'fs-lista';
+                        const ativo = document.querySelector('#fsChannelList .fs-channel-item.ativo');
+                        aplicarFoco(ativo || itensLista[0]);
+                        if (window.agendarEsconderGlobal) window.agendarEsconderGlobal();
+                        return;
+                    }
+                }
+
+                // Direita → botões (stretch/fullscreen)
+                if (key === 'ArrowRight') {
+                    if (grupoAtual === 'fs-lista') {
+                        grupoAtual = 'principal';
+                        const ativo = itensBotoes.find(function(b) { return b && b.getBoundingClientRect().width > 0; });
+                        if (ativo) aplicarFoco(ativo);
+                        if (window.agendarEsconderGlobal) window.agendarEsconderGlobal();
+                        return;
+                    }
+                }
+
+                // Se está na lista lateral
+                if (grupoAtual === 'fs-lista') {
+                    const itens = itensFsLista();
+                    if (!itens.length) return;
+                    const atual = document.activeElement;
+                    let idx = itens.indexOf(atual);
+                    if (idx < 0) idx = 0;
+                    if (key === 'ArrowDown') idx = (idx + 1) % itens.length;
+                    else if (key === 'ArrowUp') idx = (idx - 1 + itens.length) % itens.length;
+                    aplicarFoco(itens[idx]);
+                    if (window.agendarEsconderGlobal) window.agendarEsconderGlobal();
+                    return;
+                }
+
+                // Se está nos botões (stretch/fullscreen)
+                if (grupoAtual === 'principal') {
+                    const botoesVisiveis = itensBotoes.filter(function(b) { return b && b.getBoundingClientRect().width > 0; });
+                    if (!botoesVisiveis.length) return;
+                    const atual = document.activeElement;
+                    let idx = botoesVisiveis.indexOf(atual);
+                    if (idx < 0) idx = 0;
+                    if (key === 'ArrowRight') idx = (idx + 1) % botoesVisiveis.length;
+                    else if (key === 'ArrowLeft') idx = (idx - 1 + botoesVisiveis.length) % botoesVisiveis.length;
+                    else if (key === 'ArrowDown' || key === 'ArrowUp') {
+                        // Cima/baixo entre os dois botões
+                        idx = (idx + 1) % botoesVisiveis.length;
+                    }
+                    aplicarFoco(botoesVisiveis[idx]);
+                    if (window.agendarEsconderGlobal) window.agendarEsconderGlobal();
+                    return;
+                }
+                return;
+            }
+
+            // Modo normal (tela minimizada) — navegação pela ordem visual
+            const els = elementosPrincipais();
+            if (!els.length) return;
+
+            const atual = document.activeElement;
+            let idx = els.indexOf(atual);
+            if (idx < 0) idx = 0;
+
+            if (key === 'ArrowRight' || key === 'ArrowDown') {
+                idx = (idx + 1) % els.length;
+            } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
+                idx = (idx - 1 + els.length) % els.length;
+            }
+
+            indiceFoco = idx;
+            aplicarFoco(els[idx]);
+        }, true);
+
+        // ===== INICIALIZAÇÃO =====
+        setTimeout(function() {
+            // Foco inicial no play
+            focarInicial();
+
+            // Auto-foco se perder
+            setInterval(function() {
+                if (!document.body.classList.contains('smart-tv')) return;
+                if (window.gavetaEstaAberta && window.gavetaEstaAberta()) return;
+                const el = document.activeElement;
+                if (!el || el === document.body || !el.classList) {
+                    // Sem foco → refoca
+                    focarInicial();
+                }
+            }, 5000);
+        }, 1000);
+
+        console.log('[SKY MOD] D-pad pronto. Use as setas para navegar e OK/Enter para acionar.');
     })();
     </script>
 
 </body>
-                                                                        </html>
+    </html>
