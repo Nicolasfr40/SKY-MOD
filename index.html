@@ -338,7 +338,7 @@
             cursor: pointer;
         }
 
-        /* ===== LISTA DE CANAIS EM TELA CHEIA (lado oposto aos botões) ===== */
+        /* ===== LISTA DE CANAIS EM TELA CHEIA ===== */
         .fs-channel-list {
             display: none;
             position: absolute;
@@ -531,7 +531,6 @@
             margin: 0 !important;
         }
 
-        /* FULLSCREEN normal - vídeo centralizado via flexbox */
         .device.fullscreen-ativo #playerMount iframe,
         .device.fullscreen-ativo #playerMount video {
             position: relative !important;
@@ -550,11 +549,6 @@
             flex-shrink: 0 !important;
         }
 
-        /* ============================================
-           🎯 STRETCH UNIVERSAL - PREENCHE TUDO
-           ============================================ */
-
-        /* FULLSCREEN + STRETCH - vídeo nativo (m3u8, mp4) */
         .device.fullscreen-ativo.stretch-ativo #playerMount video {
             position: absolute !important;
             top: 50% !important;
@@ -571,12 +565,10 @@
             margin: 0 !important;
         }
 
-        /* FULLSCREEN + STRETCH - iframe (YouTube, Dailymotion, etc) */
         .device.fullscreen-ativo.stretch-ativo #playerMount iframe {
             position: absolute !important;
             top: 50% !important;
             left: 50% !important;
-            /* ZOOM no iframe pra preencher tudo */
             transform: translate(-50%, -50%) scale(1.4) !important;
             width: 100vw !important;
             height: 100vh !important;
@@ -589,12 +581,10 @@
             border: none !important;
         }
 
-        /* STRETCH SEM FULLSCREEN - vídeo nativo */
         .device.stretch-ativo:not(.fullscreen-ativo) #playerMount video {
             object-fit: cover !important;
         }
 
-        /* STRETCH SEM FULLSCREEN - iframe */
         .device.stretch-ativo:not(.fullscreen-ativo) #playerMount iframe {
             transform: scale(1.3) !important;
             transform-origin: center !important;
@@ -871,6 +861,9 @@
         <button data-tab="sbtnews"><span class="numero">12</span>SBT News</button>
         <button data-tab="discoverykids"><span class="numero">13</span>Discovery Kids</button>
         <button data-tab="discoverychannel"><span class="numero">14</span>Discovery Channel</button>
+        <button data-tab="espn"><span class="numero">15</span>ESPN</button>
+        <button data-tab="cartoonnetwork"><span class="numero">16</span>Cartoon Network</button>
+        <button data-tab="gloobinho"><span class="numero">17</span>Gloobinho</button>
     </div>
 
     <div class="player-container">
@@ -977,7 +970,7 @@
                 sbt: { nome: 'SBT', url: 'https://www.youtube.com/embed/LLpNUqHVam8?autoplay=1&controls=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&enablejsapi=1' },
                 redetv: { nome: 'Rede TV', url: 'https://geo.dailymotion.com/player/xgrus.html?video=kYe5OYErhldJ75Azib2&autoplay=1' },
                 cultura: { nome: 'TV Cultura', url: 'https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8', tipo: 'hls', headers: { 'Referer': 'https://www.cxtv.com.br/', 'Origin': 'https://www.cxtv.com.br' } },
-                globo: { nome: 'GLOBO', url: 'http://hls1.sua.tv/live/globotvbahiafhdbr2/s.m3u8', tipo: 'hls' },
+                globo: { nome: 'GLOBO', url: 'https://rdcanais.net/globosp', tipo: 'iframe', autoClick: true },
                 canal: { nome: 'CANAL', url: 'https://www.youtube.com/embed/rEKifG2XUZg?autoplay=true&enablejsapi=1' },
                 rssports: { nome: 'RS Sports 4', url: 'https://video03.logicahost.com.br/rssports4/rssports4/playlist.m3u8', tipo: 'hls' },
                 cazetv: { nome: 'CazéTV', url: 'https://amg01391-amg01391c10-tcl-br-9630.playouts.now.amagi.tv/playlist.m3u8', tipo: 'hls' },
@@ -986,11 +979,14 @@
                 redevida: { nome: 'Rede Vida', url: 'https://d12e4o88jd8gex.cloudfront.net/out/v1/cea3de0b76ac4e82ab8ee0fd3f17ce12/index.m3u8', tipo: 'hls' },
                 recordnews: { nome: 'Record News', url: 'https://run-rnw-rn.otteravision.com/rnw/rn/rnw_rn_720p_high.m3u8', tipo: 'hls' },
                 sbtnews: { nome: 'SBT News', url: 'https://sbtnews.maissbt.com/3.m3u8', tipo: 'hls' },
-                discoverykids: { nome: 'Discovery Kids', url: 'http://45.162.64.114/DISCOVERYKIDS/tracks-v1a1/mono.ts.m3u8', tipo: 'hls' },
-                discoverychannel: { nome: 'Discovery Channel', url: 'http://hls1.sua.tv/live/discoverychannelfhd/s.m3u8', tipo: 'hls' }
+                discoverykids: { nome: 'Discovery Kids', url: 'https://rdcanais.net/discoverykids', tipo: 'iframe', autoClick: true },
+                discoverychannel: { nome: 'Discovery Channel', url: 'https://rdcanais.net/discoverychannel', tipo: 'iframe', autoClick: true },
+                espn: { nome: 'ESPN', url: 'https://rdcanais.net/espn', tipo: 'iframe', autoClick: true },
+                cartoonnetwork: { nome: 'Cartoon Network', url: 'https://rdcanais.net/cartoonnetwork', tipo: 'iframe', autoClick: true },
+                gloobinho: { nome: 'Gloobinho', url: 'https://rdcanais.net/gloobinho', tipo: 'iframe', autoClick: true }
             };
 
-            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports', 'cazetv', 'gospelcartoon', 'sonyonecinema', 'redevida', 'recordnews', 'sbtnews', 'discoverykids', 'discoverychannel'];
+            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports', 'cazetv', 'gospelcartoon', 'sonyonecinema', 'redevida', 'recordnews', 'sbtnews', 'discoverykids', 'discoverychannel', 'espn', 'cartoonnetwork', 'gloobinho'];
             let abaAtual = 'sbt';
 
             const playerMount = document.getElementById('playerMount');
@@ -998,13 +994,6 @@
 
             function ehUrlHttp(url) {
                 return typeof url === 'string' && url.toLowerCase().indexOf('http://') === 0;
-            }
-
-            function precisaProxyMixedContent(url) {
-                // Navegador em HTTPS bloqueia recursos HTTP ("mixed content").
-                // Se a página estiver em HTTP (ou for um app/WebView com
-                // cleartext liberado), a transmissão HTTP roda direto, sem proxy.
-                return location.protocol === 'https:' && ehUrlHttp(url);
             }
 
             function proxificarUrl(url) {
@@ -1017,26 +1006,6 @@
                 } catch (e) {
                     return relativa;
                 }
-            }
-
-            // Reconstrói a playlist .m3u8 reescrevendo cada segmento para
-            // passar pelo proxy HTTPS, e entrega tudo via Blob (mesma origem),
-            // permitindo que uma transmissão 100% HTTP funcione dentro de um
-            // ambiente HTTPS que bloquearia o conteúdo misto.
-            function construirManifestoProxificado(urlOriginal) {
-                return fetch(proxificarUrl(urlOriginal)).then(function(resposta) {
-                    if (!resposta.ok) throw new Error('Falha ao buscar playlist via proxy');
-                    return resposta.text();
-                }).then(function(textoOriginal) {
-                    const linhasReescritas = textoOriginal.split('\n').map(function(linha) {
-                        const linhaLimpa = linha.trim();
-                        if (!linhaLimpa || linhaLimpa.indexOf('#') === 0) return linha;
-                        const absoluta = resolverUrlAbsoluta(urlOriginal, linhaLimpa);
-                        return ehUrlHttp(absoluta) ? proxificarUrl(absoluta) : absoluta;
-                    });
-                    const blob = new Blob([linhasReescritas.join('\n')], { type: 'application/vnd.apple.mpegurl' });
-                    return URL.createObjectURL(blob);
-                });
             }
 
             function detectarTipoPlayer(url) {
@@ -1111,6 +1080,59 @@
                 }, 100);
             }
 
+            function reforcarAutoPlayIframe(iframe, config) {
+                if (!config || !config.autoClick) return;
+
+                function enviarComandosPlay() {
+                    const mensagens = [
+                        { event: 'command', func: 'playVideo', args: '' },
+                        { event: 'command', func: 'play', args: '' },
+                        { method: 'play' },
+                        { action: 'play' },
+                        { type: 'play' },
+                        'play'
+                    ];
+                    mensagens.forEach(function(msg) {
+                        try {
+                            if (typeof msg === 'string') {
+                                iframe.contentWindow.postMessage(msg, '*');
+                            } else {
+                                iframe.contentWindow.postMessage(JSON.stringify(msg), '*');
+                                iframe.contentWindow.postMessage(msg, '*');
+                            }
+                        } catch(e) {}
+                    });
+                }
+
+                [300, 800, 1500, 2500, 4000, 6000].forEach(function(ms) {
+                    setTimeout(enviarComandosPlay, ms);
+                });
+
+                const overlayAutoPlay = document.createElement('div');
+                overlayAutoPlay.style.cssText =
+                    'position:absolute;inset:0;z-index:6;background:transparent;cursor:pointer;';
+
+                function tentarClique() {
+                    try { iframe.focus(); } catch(e) {}
+                    enviarComandosPlay();
+                }
+
+                overlayAutoPlay.addEventListener('click', tentarClique, { once: true });
+                overlayAutoPlay.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    tentarClique();
+                }, { once: true });
+
+                setTimeout(function() {
+                    if (overlayAutoPlay.parentNode) {
+                        overlayAutoPlay.parentNode.removeChild(overlayAutoPlay);
+                    }
+                }, 7000);
+
+                iframe.parentNode.style.position = 'relative';
+                iframe.parentNode.appendChild(overlayAutoPlay);
+            }
+
             function criarIframe(url, config) {
                 const iframe = document.createElement('iframe');
                 iframe.src = url;
@@ -1119,19 +1141,15 @@
                 iframe.loading = 'lazy';
                 iframe.setAttribute('frameborder', '0');
                 iframe.setAttribute('scrolling', 'no');
+                iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+
+                iframe.addEventListener('load', function() {
+                    reforcarAutoPlayIframe(iframe, config);
+                });
+
                 return iframe;
             }
 
-            // ===== SISTEMA AVANÇADO DE COMPATIBILIDADE HTTP/HTTPS =====
-            // Navegadores bloqueiam silenciosamente streams http:// quando o
-            // app está aberto em https:// ("mixed content"). Este sistema:
-            // 1) detecta o cenário automaticamente;
-            // 2) tenta a versão https:// do mesmo host primeiro (caso o
-            //    servidor aceite conexão segura na mesma porta);
-            // 3) se falhar, tenta a URL http:// original (funciona quando o
-            //    próprio app também está em http:// ou é aberto como app
-            //    nativo/WebView sem a restrição do navegador);
-            // 4) só então exibe um erro explicativo, orientando o usuário.
             function construirCandidatosUrl(url) {
                 const candidatos = [url];
                 const paginaEhHttps = window.location.protocol === 'https:';
@@ -1274,9 +1292,6 @@
                     }
 
                     if (!window.mpegts || !window.mpegts.isSupported()) {
-                        // Sem suporte a MSE para mpegts (ex: Safari) — tenta o
-                        // próximo candidato ou, na ausência de mais opções,
-                        // faz uma última tentativa via <video src>.
                         if (indice + 1 < candidatos.length) {
                             carregarCandidato(indice + 1);
                         } else {
@@ -1593,9 +1608,6 @@
             function toggleFullscreen() {
                 if (!fullscreenAtivo) {
                     aplicarFullscreenOn();
-                    // Cria um "degrau" no histórico do navegador/app.
-                    // Assim, o botão de voltar do celular consome esse degrau
-                    // primeiro, ao invés de sair do aplicativo.
                     history.pushState({ cxFullscreen: true }, '', location.href);
                     fsHistoryEntryAdded = true;
                 } else {
@@ -1623,8 +1635,6 @@
                 }
             });
 
-            // Botão de voltar do celular (Android/iOS/WebView):
-            // ao invés de fechar o app, apenas sai da tela cheia.
             window.addEventListener('popstate', function() {
                 if (ignoreNextPopstate) {
                     ignoreNextPopstate = false;
@@ -1724,8 +1734,6 @@
             overlay.classList.add('ativo');
             btnCanais.classList.add('ativo');
             sincronizarAtivo();
-            // Cria um "degrau" no histórico para o botão de voltar do
-            // celular fechar a gaveta em vez de sair do aplicativo.
             history.pushState({ cxGaveta: true }, '', location.href);
             gavetaHistoryEntryAdded = true;
         }
@@ -1754,7 +1762,6 @@
             if (e.key === 'Escape' && gaveta.classList.contains('aberta')) fecharGaveta();
         });
 
-        // Botão de voltar do celular: fecha a gaveta em vez de sair do app.
         window.addEventListener('popstate', function() {
             if (ignoreNextGavetaPopstate) {
                 ignoreNextGavetaPopstate = false;
@@ -1795,5 +1802,4 @@
     </script>
 
 </body>
-</html>
-
+    </html>
