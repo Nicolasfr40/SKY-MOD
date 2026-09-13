@@ -864,9 +864,19 @@
         <button data-tab="espn"><span class="numero">15</span>ESPN</button>
         <button data-tab="cartoonnetwork"><span class="numero">16</span>Cartoon Network</button>
         <button data-tab="gloobinho"><span class="numero">17</span>Gloobinho</button>
+        <button data-tab="amazonsat"><span class="numero">18</span>Amazon Sat</button>
+        <button data-tab="band"><span class="numero">19</span>Band</button>
+        <button data-tab="animalplanet"><span class="numero">20</span>Animal Planet</button>
+        <button data-tab="history"><span class="numero">21</span>History</button>
+        <button data-tab="cinemax"><span class="numero">22</span>Cinemax</button>
+        <button data-tab="hbo"><span class="numero">23</span>HBO</button>
+        <button data-tab="multishow"><span class="numero">24</span>Multishow</button>
+        <button data-tab="megapix"><span class="numero">25</span>Megapix</button>
+        <button data-tab="space"><span class="numero">26</span>Space</button>
+        <button data-tab="tnt"><span class="numero">27</span>TNT</button>
     </div>
 
-    <div class="player-container">
+<div class="player-container">
         <div class="device" id="devicePlayer">
             <div class="corner tl"><svg viewBox="0 0 46 46"><path d="M2 20 L2 2 L20 2" fill="none" stroke="#ff2a2a" stroke-width="2"/></svg></div>
             <div class="corner tr"><svg viewBox="0 0 46 46"><path d="M2 20 L2 2 L20 2" fill="none" stroke="#ff2a2a" stroke-width="2"/></svg></div>
@@ -983,10 +993,20 @@
                 discoverychannel: { nome: 'Discovery Channel', url: 'https://rdcanais.net/discoverychannel', tipo: 'iframe', autoClick: true },
                 espn: { nome: 'ESPN', url: 'https://rdcanais.net/espn', tipo: 'iframe', autoClick: true },
                 cartoonnetwork: { nome: 'Cartoon Network', url: 'https://rdcanais.net/cartoonnetwork', tipo: 'iframe', autoClick: true },
-                gloobinho: { nome: 'Gloobinho', url: 'https://rdcanais.net/gloobinho', tipo: 'iframe', autoClick: true }
+                gloobinho: { nome: 'Gloobinho', url: 'https://rdcanais.net/gloobinho', tipo: 'iframe', autoClick: true },
+                amazonsat: { nome: 'Amazon Sat', url: 'https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8', tipo: 'hls' },
+                band: { nome: 'Band', url: 'https://rdcanais.net/band', tipo: 'iframe', autoClick: true },
+                animalplanet: { nome: 'Animal Planet', url: 'https://rdcanais.net/animalplanet', tipo: 'iframe', autoClick: true },
+                history: { nome: 'History', url: 'https://rdcanais.net/history', tipo: 'iframe', autoClick: true },
+                cinemax: { nome: 'Cinemax', url: 'https://rdcanais.net/cinemax', tipo: 'iframe', autoClick: true },
+                hbo: { nome: 'HBO', url: 'https://rdcanais.net/hbo', tipo: 'iframe', autoClick: true },
+                multishow: { nome: 'Multishow', url: 'https://rdcanais.net/multishow', tipo: 'iframe', autoClick: true },
+                megapix: { nome: 'Megapix', url: 'https://rdcanais.net/megapix', tipo: 'iframe', autoClick: true },
+                space: { nome: 'Space', url: 'https://rdcanais.net/space', tipo: 'iframe', autoClick: true },
+                tnt: { nome: 'TNT', url: 'https://rdcanais.net/tnt', tipo: 'iframe', autoClick: true }
             };
 
-            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports', 'cazetv', 'gospelcartoon', 'sonyonecinema', 'redevida', 'recordnews', 'sbtnews', 'discoverykids', 'discoverychannel', 'espn', 'cartoonnetwork', 'gloobinho'];
+            const ordemCanais = ['sbt', 'redetv', 'cultura', 'globo', 'canal', 'rssports', 'cazetv', 'gospelcartoon', 'sonyonecinema', 'redevida', 'recordnews', 'sbtnews', 'discoverykids', 'discoverychannel', 'espn', 'cartoonnetwork', 'gloobinho', 'amazonsat', 'band', 'animalplanet', 'history', 'cinemax', 'hbo', 'multishow', 'megapix', 'space', 'tnt'];
             let abaAtual = 'sbt';
 
             const playerMount = document.getElementById('playerMount');
